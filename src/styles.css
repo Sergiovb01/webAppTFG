@@ -1,3 +1,7 @@
+/* body {
+  background-color: #575454;
+} */
+
 /* Estilos Modal */
 .ReactModalPortal > div{
     opacity: 0;
@@ -43,4 +47,60 @@
 .card-large {
   width: 350px;
   height: 300px;
+}
+
+/* Fondo oscuro para el TextField */
+
+/* Etiqueta (label) en naranja */
+.MuiInputLabel-root {
+  color: orange !important;
+}
+
+/* Etiqueta cuando está enfocada */
+.MuiInputLabel-root.Mui-focused {
+  color: orange !important;
+}
+
+/* Input (texto del campo) en naranja */
+.MuiInputBase-input {
+  color: orange !important;
+}
+
+/* Borde inferior para variante "standard" */
+.MuiInput-underline:before {
+  border-bottom: 1px solid orange !important;
+}
+
+.MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom: 2px solid orange !important;
+}
+
+.MuiInput-underline:after {
+  border-bottom: 2px solid orange !important;
+}
+
+/* Borde completo para variante "outlined" */
+.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: orange !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: orange !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: orange !important;
+}
+
+
+/* Texto blanco y fondo naranja para los botones */
+.MuiButton-root {
+  background-color: orange !important;
+  color: white !important;
+  border-color: orange !important;
+}
+
+/* Hover más oscuro */
+.MuiButton-root:hover {
+  background-color: darkorange !important;
 }
