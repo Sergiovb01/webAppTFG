@@ -4,10 +4,14 @@ import IconButton from '@mui/material/IconButton';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChatIcon from '@mui/icons-material/Chat';
+import { useAuthStore } from '../hooks';
 
 
 
 export const Navbar = () => {
+    //Cojo la función startLogout para poder cerrar sesión
+    const {startLogout} = useAuthStore()
+
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark p.2">
         <div className="container-fluid">
@@ -46,8 +50,8 @@ export const Navbar = () => {
              <IconButton  aria-label="settings">
                 <SettingsIcon sx={{ color: 'white' }}/>
              </IconButton>
-              <IconButton  aria-label="logout">
-                <LogoutIcon color="error" />
+              <IconButton  aria-label="logout" onClick={startLogout}>
+                <LogoutIcon color="error"/>
              </IconButton>
             </div>
         </div>
