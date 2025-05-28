@@ -38,3 +38,9 @@
     outline: none;
     padding: 10px;
 }
+
+/* Estilos HomePage */
+.card-large {
+  width: 350px;
+  height: 300px;
+}
