@@ -18,9 +18,9 @@ export const useAuthStore = () => {
             const {data} = await webbAppApi.post('/auth',{email, password}); // Hace la petición POST a la API para autenticar al usuario
             localStorage.setItem('token', data.token);// Guarda el token recibido en localStorage para mantener la sesión
             localStorage.setItem('token-init-date', new Date().getTime()); // Guarda la fecha en que se inició sesión (útil para renovar token después)
-
+            console.log(data)
             // Despacha la acción de login exitoso con los datos del usuario
-            dispatch(onLogin({name: data.name, udi: data.udi }))
+            dispatch(onLogin({name: data.name, uid: data.uid }))
 
         }catch(error){
             // Si ocurre un error, despacha logout con mensaje de error
@@ -39,7 +39,7 @@ export const useAuthStore = () => {
              localStorage.setItem('token', data.token);
              localStorage.setItem('token-init-date', new Date().getTime());
              
-             dispatch(onLogin({name: data.name, udi: data.udi }))
+             dispatch(onLogin({name: data.name, uid: data.uid }))
  
          }catch(error){
             dispatch(onLogout(error.response.data?.msg || '--' ));//Coger el error y mostrarlo
@@ -63,7 +63,7 @@ export const useAuthStore = () => {
             // Guarda la nueva fecha de inicio del token (útil para renovar periódicamente)
             localStorage.setItem('token-init-date', new Date().getTime());
             // Autentica al usuario con los datos recibidos
-            dispatch(onLogin({name: data.name, uid: data.udi }))
+            dispatch(onLogin({name: data.name, uid: data.uid }))
 
         }catch(error){
             // Si hay un error al renovar el token:
