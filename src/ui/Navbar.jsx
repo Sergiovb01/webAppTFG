@@ -44,7 +44,7 @@ export const Navbar = () => {
              <IconButton  aria-label="logout">
                 <ChatIcon sx={{ color: 'white' }} />
              </IconButton>
-            <Link to="/editPerfil" className="navbar-brand">
+            <Link to="/perfil" className="navbar-brand">
               <IconButton  aria-label="settings">
                 <PersonIcon sx={{ color: 'white' }} />
              </IconButton>

@@ -12,7 +12,7 @@ const webbAppApi = axios.create({
 
 //Todo: configurar interceptores 
 webbAppApi.interceptors.request.use(config => {
-
+    
     // Añade el token de autenticación a los headers de cada petición
     config.headers = {
         ...config.headers,

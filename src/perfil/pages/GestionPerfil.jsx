@@ -5,6 +5,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useState } from 'react';
+import { usePerfilStore } from '../../hooks';
+
 
 const softwareOptions = ['Photoshop', 'Blender', 'After Effects'];
 const skillOptions = ['Modelado', 'Animación', 'Ilustración'];
@@ -12,7 +14,24 @@ const countryOptions = ['España', 'México', 'Argentina'];
 const cityOptions = ['Madrid', 'Ciudad de México', 'Buenos Aires'];
 const socialOptions = ['Instagram', 'Twitter', 'LinkedIn'];
 
+// const uploadImageToCloudinary = async (file) => {
+//   const formData = new FormData();
+//   formData.append('file', file);
+//   formData.append('upload_preset', 'tu_upload_preset'); // Reemplaza con tu preset
+
+//   const res = await fetch('https://api.cloudinary.com/v1_1/tu_cloud_name/image/upload', {
+//     method: 'POST',
+//     body: formData
+//   });
+
+//   const data = await res.json();
+//   return data.secure_url;
+// };
+
+
 export const GestionPerfil = () => {
+  const { startCrearPerfil } = usePerfilStore();
+
   const [formData, setFormData] = useState({
     software: [],
     skill: [],
@@ -28,10 +47,10 @@ export const GestionPerfil = () => {
   });
 
   const socialIcons = {
-  Instagram: <InstagramIcon />,
-  Twitter: <TwitterIcon />,
-  LinkedIn: <LinkedInIcon />
-};
+    Instagram: <InstagramIcon />,
+    Twitter: <TwitterIcon />,
+    LinkedIn: <LinkedInIcon />
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,13 +80,39 @@ export const GestionPerfil = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const CreatePerfilSubmit = async (e) => {
     e.preventDefault();
-    console.log('Guardar en base de datos:', formData);
+    try {
+      // let imageUrl = '';
+
+      // if (formData.profilePhoto) {
+      //   imageUrl = await uploadImageToCloudinary(formData.profilePhoto);
+      // } else {
+      //   alert('Por favor sube una foto de perfil');
+      //   return;
+      // }
+
+      const perfilData = {
+        softwares: formData.software,
+        skills: formData.skill,
+        country: formData.country,
+        city: formData.city,
+        about: formData.about,
+        // photo: imageUrl,
+        socialMedia: formData.social.map(item => {
+          const [platform, account] = item.split(': ');
+          return { platform, account };
+        })
+      };
+      await startCrearPerfil(perfilData);
+    } catch (error) {
+      console.error('Error al crear perfil:', error);
+      alert('Hubo un error al guardar el perfil.');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="container mt-4" style={{ color: 'white', padding: '2rem', borderRadius: '10px' }}>
+    <form onSubmit={CreatePerfilSubmit} className="container mt-4" style={{ color: 'white', padding: '2rem', borderRadius: '10px' }}>
       <div className="text-center mb-4">
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Avatar

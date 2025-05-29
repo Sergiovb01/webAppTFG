@@ -5,6 +5,7 @@ import { UsersPage } from '../users/pages/UsersPage';
 import { ProjectsPage } from '../projects/pages/ProjectsPage';
 import { HomePage } from '../init/HomePage';
 import { GestionPerfil } from "../perfil/pages/GestionPerfil";
+import { PerfilUsuario } from '../perfil/pages/PerfilUsuario';
 
 
 export const AppRoutes = () => {
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
             <Route path='users' element={<UsersPage/>}/> 
             <Route path='calendar' element={<CalendarPage/>}/> 
             <Route path="editPerfil" element={<GestionPerfil />} />
+            <Route path="perfil" element={<PerfilUsuario />} />
             <Route path='*' element={<HomePage/>}/>
             
         </Routes>
