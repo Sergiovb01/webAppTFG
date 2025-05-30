@@ -6,6 +6,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useState } from 'react';
 import { usePerfilStore } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 
 
 const softwareOptions = ['Photoshop', 'Blender', 'After Effects'];
@@ -31,6 +32,8 @@ const socialOptions = ['Instagram', 'Twitter', 'LinkedIn'];
 
 export const GestionPerfil = () => {
   const { startCrearPerfil } = usePerfilStore();
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     software: [],
@@ -105,6 +108,7 @@ export const GestionPerfil = () => {
         })
       };
       await startCrearPerfil(perfilData);
+      navigate('/perfil');
     } catch (error) {
       console.error('Error al crear perfil:', error);
       alert('Hubo un error al guardar el perfil.');

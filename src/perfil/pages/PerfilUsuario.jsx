@@ -18,7 +18,7 @@ export const PerfilUsuario = () => {
   const { user } = useSelector(state => state.auth)
 
   const [userData, setUserData] = useState({
-    projects: Array(9).fill(null) // 9 espacios para proyectos
+    projects: Array(5).fill(null) // 9 espacios para proyectos
   });
 
    const socialIcons = {
@@ -152,32 +152,29 @@ console.log({perfil})
               {/* Botones de Navegación */}
               <div className="d-flex gap-2">
                  <Button variant="contained" type="submit" sx={{ bgcolor: '#1DB954', '&:hover': { bgcolor: '#1ed760' } }}>
-                  Guardar perfil
+                  Mis proyectos
                 </Button>
                 <Button variant="contained" type="submit" sx={{ bgcolor: '#1DB954', '&:hover': { bgcolor: '#1ed760' } }}>
-                  Guardar perfil
+                 Favoritos
+                </Button>
+                 <Button variant="contained" type="submit" sx={{ bgcolor: '#1DB954', '&:hover': { bgcolor: '#1ed760' } }}>
+                 Editar
                 </Button>
               </div>
             </div>
           </div>
 
           {/* Contenido Principal - Grid de Proyectos */}
-          <div className="col-lg-8 col-xl-9">
+          <div className="col-lg-8 col-xl-9" >
             <div className="row g-3">
               {userData.projects.map((project, index) => (
                 <div key={index} className="col-sm-6 col-lg-4">
                   <div className="card h-100 border-2 border-dashed" 
-                       style={{minHeight: '200px'}}>
+                       style={{minHeight: '300px'}}>
                     <div className="card-body d-flex align-items-center justify-content-center">
-                      {index === userData.projects.length - 1 ? (
-                        <button className="btn btn-outline-secondary rounded-circle p-3">
-                          <i className="bi bi-plus fs-4"></i>
-                        </button>
-                      ) : (
                         <div className="text-muted text-center">
                           <small>Proyecto {index + 1}</small>
                         </div>
-                      )}
                     </div>
                   </div>
                 </div>

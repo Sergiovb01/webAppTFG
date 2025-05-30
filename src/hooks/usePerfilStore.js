@@ -33,7 +33,7 @@ export const usePerfilStore = () => {
   const startCargarPerfil = async () => {
 
     try {
-      const { data } = await webbAppApi.get('/perfil');
+      const { data } = await webbAppApi.get('/perfil/mi-perfil');
       // Almacena el perfil recibido en el estado local
       setPerfil(data.perfil);
     } catch (error) {
@@ -42,10 +42,22 @@ export const usePerfilStore = () => {
     }
   }
 
+  // Función para cargar el perfil del usuario desde el backend
+  const comprobarPerfil = async () => {
+
+    try {
+      const { data } = await webbAppApi.get('/perfil/mi-perfil');
+      return data;
+    } catch (error) {
+      return null;
+    }
+  }
+
   return {
     isPerfilCreated,
     startCrearPerfil,
     startCargarPerfil,
+    comprobarPerfil,
     perfil
   };
 };

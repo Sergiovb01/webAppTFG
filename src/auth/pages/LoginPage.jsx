@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAuthStore, useForm } from '../../hooks';
+import { useAuthStore, useForm, usePerfilStore } from '../../hooks';
 import './loginPage.css';
 import Swal from 'sweetalert2';
 
@@ -33,6 +33,7 @@ export const LoginPage = () => {
         event.preventDefault();
         console.log({loginEmail, loginPassword})
         startLogin( {email: loginEmail, password: loginPassword})
+        
 
     }
 
