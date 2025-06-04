@@ -1,60 +1,60 @@
-import { Card, CardContent, Typography, Avatar, Button, TextField, MenuItem, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { BusquedaFiltros } from "..";
+import { TarjetaUsuario } from "../componentes/TarjetaUsuario";
+import Grid from '@mui/material/Grid';
 
-const filters = ["Categoría", "Ubicación", "Skill", "Software"];
+// pages/ArtistsPage.jsx
+
+
+const mockUsers = [
+  {
+    username: "AnaArtista",
+    profilePic: "https://via.placeholder.com/64",
+    projects: [
+      "https://via.placeholder.com/800x200?text=Proyecto+1",
+      "https://via.placeholder.com/800x200?text=Proyecto+2",
+    ],
+    skills: ["Ilustración", "Sketch"],
+    softwares: ["Photoshop", "Procreate"],
+  },
+  {
+    username: "Carlos3D",
+    profilePic: "https://via.placeholder.com/64",
+    projects: [
+      "https://via.placeholder.com/800x200?text=3D+1",
+      "https://via.placeholder.com/800x200?text=3D+2",
+      "https://via.placeholder.com/800x200?text=3D+3",
+    ],
+    skills: ["Modelado", "Animación"],
+    softwares: ["Blender", "Unity"],
+  },
+  {
+    username: "Carlos3D",
+    profilePic: "https://via.placeholder.com/64",
+    projects: [
+      "https://via.placeholder.com/800x200?text=3D+1",
+      "https://via.placeholder.com/800x200?text=3D+2",
+      "https://via.placeholder.com/800x200?text=3D+3",
+    ],
+    skills: ["Modelado", "Animación"],
+    softwares: ["Blender", "Unity"],
+  },
+];
 
 export const UsersPage = () => {
   return (
-     <div className="container py-5">
-      <div className="row justify-content-center mb-4">
-        {filters.map((label, idx) => (
-          <div className="col-6 col-md-2 mb-2" key={idx}>
-            <TextField
-              select
-              fullWidth
-              size="small"
-              label={label}
-              defaultValue=""
-            >
-              <MenuItem value="">Todos</MenuItem>
-              <MenuItem value="opcion1">Opción 1</MenuItem>
-              <MenuItem value="opcion2">Opción 2</MenuItem>
-            </TextField>
-          </div>
-        ))}
-        <div className="col-2 d-flex align-items-center justify-content-center">
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
-        </div>
-      </div>
-
-      <div className="text-center mb-4">
-        <Avatar style={{ width: 60, height: 60, margin: '0 auto' }} />
-        <Typography variant="subtitle1">Usuario</Typography>
-      </div>
-
-      <div className="row justify-content-center mb-3">
-        {[1, 2, 3, 4, 5].map((item) => (
-          <div className="col-6 col-md-2 mb-3" key={item}>
-            <Card>
-              <div style={{ height: '100px', backgroundColor: '#e0e0e0' }} />
-            </Card>
-          </div>
-        ))}
-      </div>
-
-      <div className="d-flex justify-content-between flex-wrap">
-        <div className="d-flex gap-2 flex-wrap">
-          <Button variant="outlined">Skill</Button>
-          <Button variant="outlined">Software</Button>
-          <Button variant="outlined">Skill</Button>
-        </div>
-        <Button variant="outlined" endIcon={<PersonAddIcon />}>Seguir</Button>
-      </div>
+    <div>
+      <BusquedaFiltros />
+     
+      <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+         {mockUsers.map((user, i) => (
+           <Grid size={6}>
+              <TarjetaUsuario key={i} user={user} />
+          </Grid>
+          ))}
+      </Grid>
+    
     </div>
-  )
-}
+  );
+};
 
 
