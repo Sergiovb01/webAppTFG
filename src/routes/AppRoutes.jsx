@@ -6,6 +6,7 @@ import { ProjectsPage } from '../projects/pages/ProjectsPage';
 import { HomePage } from '../init/HomePage';
 import { GestionPerfil } from "../perfil/pages/GestionPerfil";
 import { PerfilUsuario } from '../perfil/pages/PerfilUsuario';
+import { CrearProyecto, DetallesProyecto } from '../projects/index';
 
 
 export const AppRoutes = () => {
@@ -21,6 +22,10 @@ export const AppRoutes = () => {
             <Route path="editPerfil" element={<GestionPerfil />} />
             <Route path="perfil" element={<PerfilUsuario />} />
             <Route path='*' element={<HomePage/>}/>
+
+            {/* RUTAS PROYECTOS */}
+            <Route path='crearProyecto' element={<CrearProyecto/>}/>
+            <Route path="/proyecto/:id" element={<DetallesProyecto/>} />
             
         </Routes>
   

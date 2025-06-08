@@ -15,13 +15,13 @@ export const Navbar = () => {
     const navigate = useNavigate();
 
     const checkPerfil = async () => {
-    const perfil = await comprobarPerfil();   
-    
-    if (perfil) {
-       navigate('/perfil');
-    } else {
-         navigate('/editPerfil');
-    }
+        const perfil = await comprobarPerfil();   
+        
+        if (perfil) {
+           navigate('/perfil');
+        } else {
+             navigate('/editPerfil');
+        }
     };
 
   return (

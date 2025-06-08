@@ -1,59 +1,70 @@
-.login-container{
-    margin-top: 10%;
-}
-.login-form-1{
-    border-radius: 5px;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
-    padding: 5%;
-}
-.login-form-1 h3{
-    text-align: center;
-    color: orange;
-}
-.login-form-2{
-    border-radius: 5px;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
-    padding: 5%;
-    background: orange;
-}
-.login-form-2 h3{
-    text-align: center;
-    color: #fff;
-}
-.login-container form{
-    padding: 10%;
-}
-.btnSubmit
-{
-   
-    border-radius: 1rem;
-    padding: 1.5%;
-    border: none;
-    cursor: pointer;
-    margin: 10px, 0px
-}
-.login-form-1 .btnSubmit{
-    color: #fff;
-    background-color: orange;
-}
-.login-form-2 .btnSubmit{
-    background-color: #fff;
-    color: orange;
-}
-.login-form-2 .ForgetPwd{
-    color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-}
-.login-form-1 .ForgetPwd{
-    color: orange;
-    font-weight: 600;
-    text-decoration: none;
+.login-container {
+  margin-top: 10%;
 }
 
-.btnSubmit:hover {
-    opacity: 0.9;
-    transform: scale(1.02);
-    transition: all 0.2s ease-in-out;
-   
+/* Formulario 1 - con fondo lima claro y texto negro */
+.login-form-1 {
+  border-radius: 5px;
+  background-color: #c0fd01;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3), 0 9px 26px rgba(0, 0, 0, 0.2);
+  padding: 5%;
+  color: #000;
 }
+
+.login-form-1 h3 {
+  text-align: center;
+  color: #000;
+  font-family: 'VT323', monospace;
+}
+
+/* Formulario 2 - fondo negro con texto lima */
+.login-form-2 {
+  border-radius: 5px;
+  background-color: #000000;
+  box-shadow: 0 5px 8px rgba(255, 255, 255, 0.15), 0 9px 26px rgba(255, 255, 255, 0.1);
+  padding: 5%;
+  color: #c0fd01;
+}
+
+.login-form-2 h3 {
+  text-align: center;
+  color: #c0fd01;
+  font-family: 'VT323', monospace;
+}
+
+.login-container form {
+  padding: 10%;
+}
+
+/* Botón base */
+.btnSubmit {
+  border-radius: 1rem;
+  padding: 1.5%;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Botón en formulario 1: negro con texto lima */
+.login-form-1 .btnSubmit {
+  background-color: #000000;
+  color: #c0fd01;
+  border: 1px solid #000;
+}
+
+/* Botón en formulario 2: fondo lima con texto negro */
+.login-form-2 .btnSubmit {
+  background-color: #c0fd01;
+  color: #000000;
+  border: 1px solid #c0fd01;
+}
+
+/* Hover animado */
+.btnSubmit:hover {
+  transform: scale(1.03);
+  opacity: 0.95;
+}
+

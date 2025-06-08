@@ -49,62 +49,81 @@
   height: 300px;
 }
 
-/* Fondo oscuro para el TextField */
+/* ======= FUENTE TERMINAL ======= */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-/* Etiqueta (label) en naranja */
+body {
+  background-color: #c0fd01;
+  color: #000000;
+  font-family: 'VT323', monospace;
+}
+
+/* Etiquetas (labels) */
 .MuiInputLabel-root {
-  color: orange !important;
+  color: #000 !important;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-/* Etiqueta cuando está enfocada */
 .MuiInputLabel-root.Mui-focused {
-  color: orange !important;
+  color: #000 !important;
 }
 
-/* Input (texto del campo) en naranja */
+/* Texto del input */
 .MuiInputBase-input {
-  color: orange !important;
+  color: #000000 !important;
+  background-color: transparent;
 }
 
-/* Borde inferior para variante "standard" */
-.MuiInput-underline:before {
-  border-bottom: 1px solid orange !important;
-}
-
-.MuiInput-underline:hover:not(.Mui-disabled):before {
-  border-bottom: 2px solid orange !important;
-}
-
-.MuiInput-underline:after {
-  border-bottom: 2px solid orange !important;
-}
-
-/* Borde completo para variante "outlined" */
-.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-  border-color: orange !important;
+/* Outline inputs */
+.MuiOutlinedInput-notchedOutline {
+  border-color: #000000 !important;
 }
 
 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  border-color: orange !important;
+  border-color: #ffffff !important;
 }
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: orange !important;
+  border-color: #000000 !important;
 }
 
-
-/* Texto blanco y fondo naranja para los botones */
+/* ======= BOTONES: negros con texto lima fosforescente ======= */
 .MuiButton-root {
-  background-color: orange !important;
-  color: white !important;
-  border-color: orange !important;
+  background-color: #000000 !important;
+  color: #c0fd01 !important;
+  border: 1px solid #000 !important;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  padding: 6px 20px;
+  text-transform: uppercase;
 }
 
-/* Hover más oscuro */
 .MuiButton-root:hover {
-  background-color: darkorange !important;
+  background-color: #333333 !important;
+  color: #c0fd01 !important;
 }
 
+/* Botón destacado (por ejemplo “Unirse” o “Publicar”) */
+.MuiButton-root.destacado {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  font-weight: bold;
+}
 
+.MuiButton-root.destacado:hover {
+  background-color: #ffffff !important;
+  color: #000 !important;
+}
+
+/* Secciones estilo terminal invertido */
+.terminal-block {
+  background-color: #000000;
+  color: #c0fd01;
+  padding: 1rem;
+  font-family: 'VT323', monospace;
+  border-left: 5px solid #c0fd01;
+}
 
 

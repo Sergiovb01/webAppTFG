@@ -47,8 +47,8 @@ export const UsersPage = () => {
      
       <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
          {mockUsers.map((user, i) => (
-           <Grid size={6}>
-              <TarjetaUsuario key={i} user={user} />
+           <Grid size={6} key={i}>
+              <TarjetaUsuario  user={user} />
           </Grid>
           ))}
       </Grid>

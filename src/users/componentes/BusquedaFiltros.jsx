@@ -1,5 +1,4 @@
-// components/SearchFilters.jsx
-import { Box, TextField, MenuItem, IconButton } from "@mui/material";
+import { Box, FormControl, InputLabel, Select, MenuItem, IconButton, Stack, Chip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 
@@ -21,43 +20,128 @@ export const BusquedaFiltros = () => {
     setFilters({ ...filters, [name]: value });
   };
 
+  const clearFilter = (field) => {
+    setFilters((prev) => ({ ...prev, [field]: "" }));
+  };
+
   return (
-    <Box  
-    display="flex"
-      gap={2}
-      alignItems="center"
-      flexWrap="wrap"
-      p={2}
-      justifyContent="center">
-      <TextField   select label="Categoría" name="category" value={filters.category} onChange={handleChange} sx={{ minWidth: 150 }} size="small">
-        {categories.map((cat) => (
-          <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-        ))}
-      </TextField>
+    <Box p={2}>
+      {/* Filtros */}
+      <Box
+        display="flex"
+        gap={2}
+        alignItems="center"
+        flexWrap="wrap"
+        justifyContent="center"
+      >
+        {/* Categoría */}
+        <FormControl size="small" sx={{ minWidth: 150 }}>
+          <InputLabel id="category-label">Categoría</InputLabel>
+          <Select
+            labelId="category-label"
+            name="category"
+            value={filters.category}
+            onChange={handleChange}
+            label="Categoría"
+          >
+            <MenuItem value=""><em>Ninguno</em></MenuItem>
+            {categories.map((cat) => (
+              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <TextField select label="Ubicación" name="location" value={filters.location} onChange={handleChange} sx={{ minWidth: 150 }} size="small">
-        {locations.map((loc) => (
-          <MenuItem key={loc} value={loc}>{loc}</MenuItem>
-        ))}
-      </TextField>
+        {/* Ubicación */}
+        <FormControl size="small" sx={{ minWidth: 150 }}>
+          <InputLabel id="location-label">Ubicación</InputLabel>
+          <Select
+            labelId="location-label"
+            name="location"
+            value={filters.location}
+            onChange={handleChange}
+            label="Ubicación"
+          >
+            <MenuItem value=""><em>Ninguno</em></MenuItem>
+            {locations.map((loc) => (
+              <MenuItem key={loc} value={loc}>{loc}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <TextField select label="Skill" name="skill" value={filters.skill} onChange={handleChange} sx={{ minWidth: 150 }} size="small">
-        {skills.map((sk) => (
-          <MenuItem key={sk} value={sk}>{sk}</MenuItem>
-        ))}
-      </TextField>
+        {/* Skill */}
+        <FormControl size="small" sx={{ minWidth: 150 }}>
+          <InputLabel id="skill-label">Skill</InputLabel>
+          <Select
+            labelId="skill-label"
+            name="skill"
+            value={filters.skill}
+            onChange={handleChange}
+            label="Skill"
+          >
+            <MenuItem value=""><em>Ninguno</em></MenuItem>
+            {skills.map((sk) => (
+              <MenuItem key={sk} value={sk}>{sk}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <TextField select label="Software" name="software" value={filters.software} onChange={handleChange} sx={{ minWidth: 150 }} size="small">
-        {softwares.map((sw) => (
-          <MenuItem key={sw} value={sw}>{sw}</MenuItem>
-        ))}
-      </TextField>
+        {/* Software */}
+        <FormControl size="small" sx={{ minWidth: 150 }}>
+          <InputLabel id="software-label">Software</InputLabel>
+          <Select
+            labelId="software-label"
+            name="software"
+            value={filters.software}
+            onChange={handleChange}
+            label="Software"
+          >
+            <MenuItem value=""><em>Ninguno</em></MenuItem>
+            {softwares.map((sw) => (
+              <MenuItem key={sw} value={sw}>{sw}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <IconButton>
-        <SearchIcon />
-      </IconButton>
+        <IconButton>
+          <SearchIcon />
+        </IconButton>
+      </Box>
+
+      {/* Filtros activos */}
+      <Stack direction="row" spacing={1} flexWrap="wrap" mt={2} justifyContent="center">
+        {filters.category && (
+          <Chip
+            label={`Categoría: ${filters.category}`}
+            onDelete={() => clearFilter("category")}
+            color="primary"
+            variant="outlined"
+          />
+        )}
+        {filters.location && (
+          <Chip
+            label={`Ubicación: ${filters.location}`}
+            onDelete={() => clearFilter("location")}
+            color="primary"
+            variant="outlined"
+          />
+        )}
+        {filters.skill && (
+          <Chip
+            label={`Skill: ${filters.skill}`}
+            onDelete={() => clearFilter("skill")}
+            color="primary"
+            variant="outlined"
+          />
+        )}
+        {filters.software && (
+          <Chip
+            label={`Software: ${filters.software}`}
+            onDelete={() => clearFilter("software")}
+            color="primary"
+            variant="outlined"
+          />
+        )}
+      </Stack>
     </Box>
   );
 };
-
-
