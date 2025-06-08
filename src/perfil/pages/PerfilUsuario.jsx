@@ -1,188 +1,164 @@
-
 import { useEffect, useState } from 'react';
 import { usePerfilStore } from '../../hooks';
 import { useSelector } from 'react-redux';
-import { Button, Avatar, Chip, Stack } from '@mui/material';
-import BrushIcon from '@mui/icons-material/Brush';
-import EngineeringIcon from '@mui/icons-material/Engineering';
-import PlaceIcon from '@mui/icons-material/Place';
-
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import React from 'react';
+import {
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  Avatar,
+  Typography,
+  Chip,
+  Stack,
+  Button,
+  Container
+} from '@mui/material';
+import {
+  Engineering as EngineeringIcon,
+  Brush as BrushIcon,
+  Place as PlaceIcon,
+  Person as PersonIcon,
+  Instagram as InstagramIcon,
+  Twitter as TwitterIcon,
+  LinkedIn as LinkedInIcon
+} from '@mui/icons-material';
 
 export const PerfilUsuario = () => {
-
   const { startCargarPerfil, perfil } = usePerfilStore();
+  const { user } = useSelector(state => state.auth);
 
-  const { user } = useSelector(state => state.auth)
-
-  const [userData, setUserData] = useState({
-    projects: Array(5).fill(null) // 9 espacios para proyectos
+  const [userData] = useState({
+    projects: Array(5).fill(null)
   });
 
-   const socialIcons = {
-    Instagram: <InstagramIcon />,
-    Twitter: <TwitterIcon />,
+  const socialIcons = {
+    Instagram: <InstagramIcon />, 
+    Twitter: <TwitterIcon />, 
     LinkedIn: <LinkedInIcon />
   };
-
 
   useEffect(() => {
     startCargarPerfil();
   }, []);
 
-console.log({perfil})
-  if (!perfil) return <p className="text-center mt-10">Cargando perfil...</p>;
-
-
+  if (!perfil) return <Typography align="center" mt={10}>Cargando perfil...</Typography>;
 
   return (
-   <div className="min-vh-100 bg-light p-3">
-      <div className="container-fluid">
-        <div className="row g-4">
-          
-          {/* Sidebar Izquierdo */}
-          <div className="col-lg-4 col-xl-3">
-            <div className="d-flex flex-column gap-3">
-              
-              {/* Perfil Principal */}
-              <div className="card shadow-sm">
-                <div className="card-body text-center">
-                  <div className="bg-secondary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
-                       style={{width: '80px', height: '80px'}}>
-                    <i className="bi bi-person-fill fs-1 text-white"></i>
-                  </div>
-                  <h5 className="card-title mb-3">{user.name}</h5>
-                  <div className="row text-center">
-                    <div className="col-6">
-                      <div className="fs-4 fw-bold">32</div>
-                      <small className="text-muted">Seguidores</small>
-                    </div>
-                    <div className="col-6">
-                      <div className="fs-4 fw-bold">45</div>
-                      <small className="text-muted">Siguiendo</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <Box sx={{ minHeight: '100vh', p: 2 }}>
+      <Container maxWidth="xl">
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4} lg={3}>
+            <Stack spacing={2}>
+              <Card elevation={1} sx={{ borderRadius: 2, backgroundColor: 'transparent' }}>
+                <CardContent sx={{ textAlign: 'center', py: 3 }}>
+                  <Avatar sx={{ width: 80, height: 80, mx: 'auto', mb: 2, bgcolor: '#6c757d' }}>
+                    <PersonIcon sx={{ fontSize: 40, color: 'white' }} />
+                  </Avatar>
+                  <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>{user.name}</Typography>
+                  <Box display="flex" justifyContent="center" gap={4}>
+                    <Box textAlign="center">
+                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>32</Typography>
+                      <Typography variant="caption" color="text.secondary">Seguidores</Typography>
+                    </Box>
+                    <Box textAlign="center">
+                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>45</Typography>
+                      <Typography variant="caption" color="text.secondary">Siguiendo</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
 
-              {/* Skills y Software */}
-              <div className="card shadow-sm">
-                <div className="card-body">
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center mb-2">
-                      <EngineeringIcon/>
-                      <small className="fw-medium">Softwares</small>
-                    </div>
-                    <div className="d-flex flex-wrap gap-1">
-                       <Stack direction="row" spacing={1} flexWrap="wrap">
-                        {perfil.softwares.map(item => (
-                          <Chip
-                            key={item}
-                            label={item}
-                            sx={{ bgcolor: '#e98d04', color: 'white' }}
-                          />
-                        ))}
-                      </Stack>
-                    </div>
-                  </div>
-                  
-                  <div className="mb-0">
-                    <div className="d-flex align-items-center mb-2">
-                      <BrushIcon/>
-                      <small className="fw-medium">Habilidades</small>
-                    </div>
-                    <div className="d-flex flex-wrap gap-1">
-                      <Stack direction="row" spacing={1} flexWrap="wrap">
-                        {perfil.skills.map(item => (
-                          <Chip
-                            key={item}
-                            label={item}
-                            sx={{ bgcolor: '#e98d04', color: 'white' }}
-                          />
-                        ))}
-                      </Stack>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Ubicación */}
-              <div className="card shadow-sm">
-                <div className="card-body">
-                  <div className="d-flex align-items-center text-muted">
-                    <PlaceIcon/>
-                    <small>{perfil.country}, {perfil.city}</small>
-                  </div>
-                </div>
-              </div>
-
-              {/* Sobre mí */}
-              <div className="card shadow-sm">
-                <div className="card-body">
-                  <h6 className="card-title">Sobre mí</h6>
-                  <div className="d-flex flex-column gap-2">
-                    <p>{perfil.about}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Redes Sociales */}
-              <div className="card shadow-sm">
-                <div className="card-body">
-                  <h6 className="card-title">Redes</h6>
-                  <div className="d-flex gap-3">
-                    <Stack direction="row" spacing={1} flexWrap="wrap">
-                      {perfil.socialMedia.map(item => {
-                        return (
-                        <Chip
-                            key={item.platform}
-                            label={item.account}
-                            icon={socialIcons[item.platform]}
-                            sx={{ bgcolor: '#e98d04', color: 'white', '& .MuiChip-icon': { color: 'white' } }}
-                        />
-                        );
-                        })}
+              <Card elevation={1} sx={{ borderRadius: 2, backgroundColor: 'transparent' }}>
+                <CardContent sx={{ py: 2.5 }}>
+                  <Box sx={{ mb: 2.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                      <EngineeringIcon sx={{ mr: 1, fontSize: 18 }} />
+                      <Typography variant="body2" sx={{ fontWeight: 500 }}>Softwares</Typography>
+                    </Box>
+                    <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                      {perfil.softwares.map((item, index) => (
+                        <Chip key={index} label={item} size="small" sx={{ bgcolor: '#f0932b', color: 'white', fontSize: '0.75rem', height: 24 }} />
+                      ))}
                     </Stack>
-                  </div>
-                </div>
-              </div>
+                  </Box>
+                  <Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                      <BrushIcon sx={{ mr: 1, fontSize: 18 }} />
+                      <Typography variant="body2" sx={{ fontWeight: 500 }}>Habilidades</Typography>
+                    </Box>
+                    <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                      {perfil.skills.map((item, index) => (
+                        <Chip key={index} label={item} size="small" sx={{ bgcolor: '#f0932b', color: 'white', fontSize: '0.75rem', height: 24 }} />
+                      ))}
+                    </Stack>
+                  </Box>
+                </CardContent>
+              </Card>
 
-              {/* Botones de Navegación */}
-              <div className="d-flex gap-2">
-                 <Button variant="contained" type="submit" sx={{ bgcolor: '#1DB954', '&:hover': { bgcolor: '#1ed760' } }}>
-                  Mis proyectos
-                </Button>
-                <Button variant="contained" type="submit" sx={{ bgcolor: '#1DB954', '&:hover': { bgcolor: '#1ed760' } }}>
-                 Favoritos
-                </Button>
-                 <Button variant="contained" type="submit" sx={{ bgcolor: '#1DB954', '&:hover': { bgcolor: '#1ed760' } }}>
-                 Editar
-                </Button>
-              </div>
-            </div>
-          </div>
+              <Card elevation={1} sx={{ borderRadius: 2, backgroundColor: 'transparent' }}>
+                <CardContent sx={{ py: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <PlaceIcon sx={{ mr: 1, fontSize: 18, color: 'text.secondary' }} />
+                    <Typography variant="body2" color="text.secondary">{perfil.country}, {perfil.city}</Typography>
+                  </Box>
+                </CardContent>
+              </Card>
 
-          {/* Contenido Principal - Grid de Proyectos */}
-          <div className="col-lg-8 col-xl-9" >
-            <div className="row g-3">
-              {userData.projects.map((project, index) => (
-                <div key={index} className="col-sm-6 col-lg-4">
-                  <div className="card h-100 border-2 border-dashed" 
-                       style={{minHeight: '300px'}}>
-                    <div className="card-body d-flex align-items-center justify-content-center">
-                        <div className="text-muted text-center">
-                          <small>Proyecto {index + 1}</small>
-                        </div>
-                    </div>
-                  </div>
-                </div>
+              <Card elevation={1} sx={{ borderRadius: 2, backgroundColor: 'transparent' }}>
+                <CardContent sx={{ py: 2.5 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>Sobre mí</Typography>
+                  <Typography variant="body2" color="text.secondary">{perfil.about}</Typography>
+                </CardContent>
+              </Card>
+
+              <Card elevation={1} sx={{ borderRadius: 2, backgroundColor: 'transparent' }}>
+                <CardContent sx={{ py: 2.5 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>Redes</Typography>
+                  <Stack direction="row" spacing={1} flexWrap="wrap">
+                    {perfil.socialMedia.map(item => (
+                      <Chip
+                        key={item.platform}
+                        label={item.account}
+                        icon={socialIcons[item.platform]}
+                        sx={{ bgcolor: '#e98d04', color: 'white', '& .MuiChip-icon': { color: 'white' } }}
+                      />
+                    ))}
+                  </Stack>
+                </CardContent>
+              </Card>
+
+              <Stack direction="row" spacing={2} justifyContent="center">
+                <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }}>
+                  MIS PROYECTOS
+                </Button>
+                <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }}>
+                  FAVORITOS
+                </Button>
+                <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }}>
+                  EDITAR
+                </Button>
+              </Stack>
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12} md={8} lg={9}>
+            <Grid container spacing={2}>
+              {userData.projects.map((_, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card elevation={0} sx={{ height: 200, border: '2px dashed #d1d5db', bgcolor: 'white', borderRadius: 2, '&:hover': { borderColor: '#9ca3af', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' } }}>
+                    <CardContent sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                        Proyecto {index + 1}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
