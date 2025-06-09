@@ -9,8 +9,8 @@ export const DetallesProyecto = () => {
         <Typography variant="h5" fontWeight="bold" mb={2}>
           Proyecto
         </Typography>
-         <Box sx={{ border: "1px solid #ccc", height: 250, mb: 2 }} /> {/* Aqui tienen que ir las imagenes del proeycto */}
-        <Box sx={{ border: "1px solid #ccc", height: 150 }} />
+         <Box sx={{ border: "1px solid #ccc", height: 700, mb: 2 }} /> {/* Aqui tienen que ir las imagenes del proeycto */}
+        
       </Box>
 
       {/* Columna derecha */}
@@ -43,7 +43,7 @@ export const DetallesProyecto = () => {
           Categoría
         </Typography>
         <Stack direction="row" spacing={1} my={1} flexWrap="wrap">
-          <Chip label="Categoría" variant="outlined" />
+          <Chip className="chip-custom" label="Categoría" variant="outlined" />
           <Chip label="Categoría" variant="outlined" />
         </Stack>
 
@@ -54,7 +54,7 @@ export const DetallesProyecto = () => {
         <Grid container spacing={1} my={1}>
             {Array.from({ length: 6 }).map((_, i) => (
                 <Grid size={3} key={i}>
-                    <Chip label={`Perfil ${i + 1}`} variant="outlined" fullWidth />
+                    <Chip className="chip-custom" label={`Perfil ${i + 1}`} variant="outlined" fullWidth />
                 </Grid>
             ))}
         </Grid>

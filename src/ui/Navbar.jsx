@@ -24,6 +24,11 @@ export const Navbar = () => {
         }
     };
 
+    const checkPostulados = () => {
+
+        navigate('/postulados');
+    }
+
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark p.2">
         <div className="container-fluid">
@@ -53,7 +58,7 @@ export const Navbar = () => {
                 </div>
             </div>
             <div className=" d-flex ms-auto">
-             <IconButton  aria-label="logout">
+             <IconButton  aria-label="logout" onClick={checkPostulados}>
                 <ChatIcon sx={{ color: 'white' }} />
              </IconButton>
               <IconButton  aria-label="settings" onClick={checkPerfil}>

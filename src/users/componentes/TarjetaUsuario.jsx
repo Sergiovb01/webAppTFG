@@ -5,8 +5,15 @@ export const TarjetaUsuario = ({ user }) => {
   return (
     <Card sx={{ maxWidth: 800, margin: "1rem auto", p: 2, boxShadow: 0, backgroundColor: "transparent"}}>
       {/* Encabezado: Avatar y nombre */}
-      <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
-        <Avatar src={user.profilePic} sx={{ width: 64, height: 64 }} />
+      <Box display="flex" flexDirection="column" alignItems="center" mb={2}sx={{
+                        cursor: 'pointer',
+                        '&:hover': {
+                          color: '#3498db',
+                          transform: 'scale(1.1)',
+                          transition: 'all 0.2s ease-in-out',
+                        },
+                      }}>
+        <Avatar src={user.profilePic} sx={{ width: 64, height: 64 }}  />
         <Typography variant="h6" mt={1}>{user.username}</Typography>
       </Box>
 

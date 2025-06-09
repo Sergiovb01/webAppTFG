@@ -53,20 +53,20 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 body {
-  background-color: #c0fd01;
+  background-color: #f9f9f9; /* Fondo muy claro */
   color: #000000;
   font-family: 'VT323', monospace;
 }
 
 /* Etiquetas (labels) */
 .MuiInputLabel-root {
-  color: #000 !important;
+  color: #333333 !important;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .MuiInputLabel-root.Mui-focused {
-  color: #000 !important;
+  color: #000000 !important;
 }
 
 /* Texto del input */
@@ -81,18 +81,18 @@ body {
 }
 
 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  border-color: #ffffff !important;
+  border-color: #071eec !important; /* Azul claro al pasar el cursor */
 }
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #000000 !important;
 }
 
-/* ======= BOTONES: negros con texto lima fosforescente ======= */
+/* ======= BOTONES: fondo blanco, borde azul, texto azul ======= */
 .MuiButton-root {
-  background-color: #000000 !important;
-  color: #c0fd01 !important;
-  border: 1px solid #000 !important;
+  background-color: #ffffff !important;
+  color: #071eec !important;
+  border: 1px solid #071eec !important;
   font-family: 'VT323', monospace;
   font-size: 1.2rem;
   padding: 6px 20px;
@@ -100,30 +100,39 @@ body {
 }
 
 .MuiButton-root:hover {
-  background-color: #333333 !important;
-  color: #c0fd01 !important;
+  background-color: #071eec !important;
+  color: #ffffff !important;
 }
 
 /* Botón destacado (por ejemplo “Unirse” o “Publicar”) */
 .MuiButton-root.destacado {
   background-color: #000000 !important;
   color: #ffffff !important;
-  border: 1px solid #ffffff !important;
+  border: 1px solid #000000 !important;
   font-weight: bold;
 }
 
 .MuiButton-root.destacado:hover {
   background-color: #ffffff !important;
-  color: #000 !important;
+  color: #000000 !important;
 }
 
-/* Secciones estilo terminal invertido */
+/* Secciones estilo "terminal claro" */
 .terminal-block {
-  background-color: #000000;
-  color: #c0fd01;
+  background-color: #f0f0f0;
+  color: #000000;
   padding: 1rem;
   font-family: 'VT323', monospace;
-  border-left: 5px solid #c0fd01;
+  border-left: 5px solid #071eec;
 }
 
+/* Chips personalizados */
+.chip-custom {
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  color: #000000;
+  border: 1px solid #071eec !important;
+  background-color: #ffffff !important;
+  transition: background-color 0.2s ease;
+}
 

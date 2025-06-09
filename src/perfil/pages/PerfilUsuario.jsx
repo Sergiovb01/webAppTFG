@@ -23,6 +23,7 @@ import {
   Twitter as TwitterIcon,
   LinkedIn as LinkedInIcon
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 export const PerfilUsuario = () => {
   const { startCargarPerfil, perfil } = usePerfilStore();
@@ -38,6 +39,8 @@ export const PerfilUsuario = () => {
     LinkedIn: <LinkedInIcon />
   };
 
+  const navigate = useNavigate();
+  
   useEffect(() => {
     startCargarPerfil();
   }, []);
@@ -57,11 +60,33 @@ export const PerfilUsuario = () => {
                   </Avatar>
                   <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>{user.name}</Typography>
                   <Box display="flex" justifyContent="center" gap={4}>
-                    <Box textAlign="center">
+                    <Box 
+                      textAlign="center"  
+                      onClick={() => navigate('/seguidores')}
+                      sx={{
+                        cursor: 'pointer',
+                        '&:hover': {
+                          color: '#3498db',
+                          transform: 'scale(1.03)',
+                          transition: 'all 0.2s ease-in-out',
+                        },
+                      }}
+                      >
                       <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>32</Typography>
                       <Typography variant="caption" color="text.secondary">Seguidores</Typography>
                     </Box>
-                    <Box textAlign="center">
+                    <Box 
+                      textAlign="center"  
+                      onClick={() => navigate('/seguidores')}
+                      sx={{
+                        cursor: 'pointer',
+                        '&:hover': {
+                          color: '#3498db',
+                          transform: 'scale(1.03)',
+                          transition: 'all 0.2s ease-in-out',
+                        },
+                      }}
+                      >
                       <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>45</Typography>
                       <Typography variant="caption" color="text.secondary">Siguiendo</Typography>
                     </Box>

@@ -7,7 +7,8 @@ import { HomePage } from '../init/HomePage';
 import { GestionPerfil } from "../perfil/pages/GestionPerfil";
 import { PerfilUsuario } from '../perfil/pages/PerfilUsuario';
 import { CrearProyecto, DetallesProyecto } from '../projects/index';
-
+import { PostulacionesPage } from '../postulados/pages/PostulacionesPage';
+import { SeguidoresPage } from '../seguidores/pages/Seguidores';
 
 export const AppRoutes = () => {
 
@@ -26,7 +27,12 @@ export const AppRoutes = () => {
             {/* RUTAS PROYECTOS */}
             <Route path='crearProyecto' element={<CrearProyecto/>}/>
             <Route path="/proyecto/:id" element={<DetallesProyecto/>} />
-            
+
+            {/* POSTULADOS */}
+            <Route path='postulados' element={<PostulacionesPage/>}/>
+
+             {/* SEGUIDORES Y SEGUIDOS */}
+             <Route path='seguidores' element={<SeguidoresPage/>}/>
         </Routes>
   
     </>
