@@ -21,14 +21,79 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-const events = [{
+const events = [
+  
+  {
+    title: 'Feria Internacional de Animación 2025',
+    notes: 'Exposición de nuevas tecnologías en animación 3D y VFX.',
+    start: new Date(2025, 5, 24, 10, 0),
+    end: new Date(2025, 5, 24, 18, 0),
+    bgColor: '#FF8C00',
+    image: '/img/feria-animacion.jpg',
+    location: 'Centro de Convenciones, Madrid'
+  },
+  {
+    title: 'Conferencia: El futuro del VFX en el cine',
+    notes: 'Charla impartida por expertos de ILM y Weta Digital.',
+    start: new Date(2025, 5, 25, 11, 0),
+    end: new Date(2025, 5, 25, 13, 0),
+    bgColor: '#1E90FF',
+    image: '/img/conferencia-vfx.jpg',
+    location: 'Auditorio VFX, Barcelona'
+  },
+  {
+    title: 'Taller de Motion Capture',
+    notes: 'Prácticas en vivo con equipos de última generación.',
+    start: new Date(2025, 5, 26, 15, 0),
+    end: new Date(2025, 5, 26, 17, 0),
+    bgColor: '#32CD32',
+    image: '/img/motion-capture.png',
+    location: 'Estudio Creativo, Valencia'
+  },
 
-  title: 'Mi evento',
-  notes: 'Este es mi primer evento',
-  start: new Date(),
-  end: addHours(new Date(), 2),
-  bgColor:'#fafafa'
-}]
+  
+  {
+    title: 'Networking: Profesionales del Cine y la Animación',
+    notes: 'Espacio para generar contactos y oportunidades de colaboración.',
+    start: new Date(2025, 6, 5, 19, 0),
+    end: new Date(2025, 6, 5, 21, 0),
+    bgColor: '#FFD700',
+    image: '/img/networking-cine.jpg',
+    location: 'Terraza CineForum, Sevilla'
+  },
+  {
+    title: 'Premios a la mejor producción VFX',
+    notes: 'Gala de entrega de premios a las mejores producciones del año.',
+    start: new Date(2025, 6, 12, 20, 0),
+    end: new Date(2025, 6, 12, 23, 0),
+    bgColor: '#BA55D3',
+    image: '/img/premios-vfx.jpg',
+    location: 'Teatro Principal, Bilbao'
+  },
+
+ 
+  {
+    title: 'Workshop: Iluminación y Composición Digital',
+    notes: 'Sesión práctica con herramientas de postproducción.',
+    start: new Date(2025, 7, 8, 9, 0),
+    end: new Date(2025, 7, 8, 12, 0),
+    bgColor: '#FF4500',
+    image: '/img/workshop-iluminacion.jpg',
+    location: 'Espacio Creativo, Málaga'
+  },
+  {
+    title: 'Proyección exclusiva: Making of de Avatar 3',
+    notes: 'Detrás de cámaras y procesos de creación de efectos.',
+    start: new Date(2025, 7, 22, 18, 0),
+    end: new Date(2025, 7, 22, 20, 0),
+    bgColor: '#00CED1',
+    image: '/img/proyeccion-avatar.jpeg',
+    location: 'Cine Fórum, Valencia'
+  }
+]
+
+
+
 
 
 
@@ -36,11 +101,24 @@ export const CalendarPage = () => {
 
   // Estado para guardar la última vista del calendario (semana, mes, día, etc.)
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week') 
+  const [activeEvent, setActiveEvent] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const eventStyleGetter = (event, start, end, isSelected) => {
-    
-
-  }
+ // Estilo personalizado mejorado para los eventos del calendario
+const eventStyleGetter = (event, start, end, isSelected) => {
+  const style = {
+    backgroundColor: event.bgColor || '#347CF7',
+    borderRadius: '8px',              
+    opacity: isSelected ? 1 : 0.9,    
+    color: '#ffffff',                
+    border: isSelected ? '2px solid #000000' : 'none', 
+    padding: '2px 6px',               
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', 
+    cursor: 'pointer'                
+  };
+  
+  return { style };
+};
 
   //Eventos en los eventos del calendario
 
@@ -51,7 +129,8 @@ export const CalendarPage = () => {
 
   // Evento que se dispara al hacer clic sobre un evento
   const onSelect = (event) => {
-    console.log({click: event})
+    setActiveEvent(event)
+    setIsModalOpen(true)
   }
 
 // Evento que se dispara al cambiar la vista del calendario (semana, mes, día
@@ -61,6 +140,10 @@ export const CalendarPage = () => {
   }
 
   
+  const onCloseModal = () => {
+    console.log('Cerrando Modal')
+    setIsModalOpen(false)
+  }
 
 
   return (
@@ -82,7 +165,11 @@ export const CalendarPage = () => {
         onSelectEvent={onSelect}
         onView={onViewChanged}
       />
-      <CalendarModal/>
+      <CalendarModal
+        isOpen={isModalOpen}
+        onClose={onCloseModal}
+        event={activeEvent}
+        />
     </>
   )
 }

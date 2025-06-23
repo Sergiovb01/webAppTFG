@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Divider } from '@mui/material';
 import {ListaUsuarios} from '../componentes/ListaUsuarios';
 import { seguidoresMock, siguiendoMock } from '../mock/relaciones';
+import { useUsuarioStore } from '../../hooks/useUsuarioStore';
+import { useAuthStore } from '../../hooks';
 
 export const SeguidoresPage = () => {
-  const [seguidores, setSeguidores] = useState(seguidoresMock);
-  const [siguiendo, setSiguiendo] = useState(siguiendoMock);
 
-  const handleSeguir = (id) => {
-    const user = seguidores.find((u) => u.id === id);
-    if (!user || user.seguido) return;
+  const {
+      seguidores,
+      seguidos,
+      obtenerSeguidoresYSeguidos,
+      seguirUsuario,
+      dejarDeSeguirUsuario
+    } = useUsuarioStore();
 
-    setSeguidores((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, seguido: true } : u))
-    );
-    setSiguiendo((prev) => [...prev, { id: user.id, nombre: user.nombre }]);
+    const { user } = useAuthStore(); // para obtener el usuario actual
+
+    useEffect(() => {
+      obtenerSeguidoresYSeguidos(); // al montar el componente
+    }, []);
+
+  const handleSeguir = async (id) => {
+    const success = await seguirUsuario(id);
+    if (success) {
+      obtenerSeguidoresYSeguidos(); // Refrescar datos tras la acción
+    }
   };
 
-  const handleDejarDeSeguir = (id) => {
-    setSiguiendo((prev) => prev.filter((u) => u.id !== id));
-    setSeguidores((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, seguido: false } : u))
-    );
+   const handleDejarDeSeguir = async (id) => {
+    const success = await dejarDeSeguirUsuario(id);
+    if (success) {
+      obtenerSeguidoresYSeguidos(); // Refrescar datos tras la acción
+    }
   };
 
   return (
+    
     <Box
       sx={{
         display: 'flex',
@@ -36,7 +48,6 @@ export const SeguidoresPage = () => {
       <ListaUsuarios
         titulo="Seguidores"
         usuarios={seguidores}
-        mostrarSeguir={true}
         onAccion={handleSeguir}
       />
 
@@ -48,7 +59,7 @@ export const SeguidoresPage = () => {
 
       <ListaUsuarios
         titulo="Siguiendo"
-        usuarios={siguiendo}
+        usuarios={seguidos}
         mostrarSeguir={false}
         onAccion={handleDejarDeSeguir}
       />

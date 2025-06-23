@@ -55,7 +55,7 @@ export const LoginPage = () => {
     // Hook que se ejecuta cuando cambia errorMessage
      useEffect(()=>{
         // Si hay un mensaje de error, muestra una alerta
-        if(errorMessage !== undefined){
+        if(errorMessage !== 'Credenciales incorrectas' && errorMessage !== undefined){
             Swal.fire('Error en la autenticación', errorMessage, 'error' );//SweetAlert
         }
 

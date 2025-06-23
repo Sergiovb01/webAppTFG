@@ -1,27 +1,69 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography, TextField, MenuItem, Button, Stack, Select, FormControl, InputLabel, IconButton,  OutlinedInput,
   Chip } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { useProyectoStore } from '../../hooks/useProyectoStore';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
 
 const categorias = ["Ilustración", "Diseño", "3D", "Animación"];
 const tiposArtista = ["Ilustrador", "Modelador 3D", "Diseñador", "Animador"];
 const softwares = ["Photoshop", "Blender", "Figma", "Procreate"];
 
-export const CrearProyecto = () => {
- const [titulo, setTitulo] = useState("");
+export const CrearProyecto = ( { initialData = null, onSubmit }) => {
+  const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState([]);
   const [tipoArtista, setTipoArtista] = useState([]);
   const [software, setSoftware] = useState([]);
   const [imagenes, setImagenes] = useState([]);
+  const [imagenesNuevas, setImagenesNuevas] = useState([]); 
+
 
   const navigate = useNavigate();
 
+  // Cuando initialData cambia, rellenamos el formulario
+  useEffect(() => {
+    if (initialData) {
+      setTitulo(initialData.titulo || "");
+      setDescripcion(initialData.descripcion || "");
+      setCategoria(initialData.categoria || []);
+      setTipoArtista(initialData.tipoArtista || []);
+      setSoftware(initialData.software || []);
+      setImagenes(initialData.imagenes || []);
+      setImagenesNuevas([]); // Limpio las nuevas
+    }
+  }, [initialData]);
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImagenes(files);
+
+    // Filtrar para evitar duplicados
+    const nuevos = files.filter(file =>
+      !imagenesNuevas.some(img => img.name === file.name && img.lastModified === file.lastModified)
+    );
+
+    setImagenesNuevas(prev => [...prev, ...nuevos]);
   };
+
+  const handleCrearProyecto = () => {
+  if (!titulo || !descripcion || categoria.length === 0 || tipoArtista.length === 0 || software.length === 0) {
+   Swal.fire({
+    icon: 'warning',
+    title: 'Campos incompletos',
+    text: 'Por favor, completa todos los campos obligatorios.',
+    confirmButtonColor: '#3085d6'
+  });
+    return;
+  }
+
+ const data = { titulo, descripcion, categoria, tipoArtista, software, imagenes, imagenesNuevas };
+
+ onSubmit(data);
+};
 
   return (
     <Box maxWidth="md" mx="auto" px={2} py={4}>
@@ -119,34 +161,66 @@ export const CrearProyecto = () => {
         </Stack>
       </Box>
 
-      <Box my={4}>
-        <Typography variant="subtitle1" gutterBottom>Imágenes</Typography>
-        <Box
-          sx={{
-            border: '2px dashed #ccc',
-            borderRadius: 2,
-            p: 4,
-            textAlign: 'center',
-            bgcolor: 'background.paper'
-          }}
-        >
-          <IconButton color="primary">
-            <Add fontSize="large" />
-          </IconButton>
-          <Typography>Arrastra y suelta tus imágenes aquí</Typography>
-          <Typography variant="body2" color="text.secondary">o haz clic para seleccionar archivos</Typography>
+      <Box
+  sx={{
+    border: '2px dashed #ccc',
+    borderRadius: 2,
+    p: 4,
+    textAlign: 'center',
+    bgcolor: 'background.paper'
+  }}
+>
+  <Typography variant="body2" color="text.secondary">
+    Puedes seleccionar imágenes para mostrar en tu proyecto.
+  </Typography>
 
-          <Button
-            component="label"
-            variant="contained"
-            sx={{ mt: 2 }}
+  <Box mt={2}>
+    <Button
+      component="label"
+      variant="contained"
+    >
+      Seleccionar Imágenes
+      <input hidden multiple accept="image/*" type="file" onChange={handleImageChange} />
+    </Button>
+  </Box>
+
+  {/* Previsualización de imágenes */}
+  {(imagenes.length > 0 || imagenesNuevas.length > 0) && (
+    <Box mt={4} display="flex" flexWrap="wrap" gap={2} justifyContent="center">
+      {[...imagenes, ...imagenesNuevas].map((file, idx) => {
+          const src = typeof file === 'string' ? file : URL.createObjectURL(file);//Comprobar si es una URL ya de cloudinary o un archivo nuevo
+          return (
+        <Box key={idx} sx={{ position: 'relative', width: 120, height: 120, border: '1px solid #ccc', borderRadius: 1, overflow: 'hidden' }}>
+          <img
+            src={src}
+            alt={`preview-${idx}`}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <IconButton
+            size="small"
+            onClick={() => {
+                const all = [...imagenes, ...imagenesNuevas];
+                const updated = all.filter((_, i) => i !== idx);
+
+                // Repartir actualizados entre `imagenes` y `imagenesNuevas`
+                const nuevas = updated.filter(f => typeof f !== 'string');
+                const existentes = updated.filter(f => typeof f === 'string');
+
+                setImagenes(existentes);
+                setImagenesNuevas(nuevas);
+              }}
+            sx={{ position: 'absolute', top: 4, right: 4, bgcolor: 'rgba(255,255,255,0.7)' }}
           >
-            Seleccionar Imágenes
-            <input hidden multiple accept="image/*" type="file" onChange={handleImageChange} />
-          </Button>
+            <DeleteIcon sx={{ fontSize: 16, color: '#d32f2f' }} />
+          </IconButton>
         </Box>
-      </Box>
-    <Box textAlign="center" display="flex" justifyContent="center" gap={2}>
+         );
+      })}
+    </Box>
+  )}
+</Box>
+
+    <Box mt={2} textAlign="center" display="flex" justifyContent="center" gap={2}>
         
         <Button
           className='volver'
@@ -157,14 +231,41 @@ export const CrearProyecto = () => {
         >
           Volver
         </Button>
-        <Button
+        {(initialData ? (
+          <>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCrearProyecto}
+            sx={{ px: 4, py: 1.5 }}
+          >
+            Actualizar Proyecto
+          </Button>
+
+          <Button
+          className='volver'
           variant="outlined"
           color="secondary"
-          onClick={""} // Aquí deberías implementar la lógica para crear el proyecto
+          onClick={() => navigate('/projects')}
           sx={{ px: 4, py: 1.5 }}
         >
-          Crear Proyecto
+          Cerrar
         </Button>
+        </>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCrearProyecto}
+            sx={{ px: 4, py: 1.5 }}
+          >
+            Crear Proyecto
+          </Button>
+          
+        ))}
+
+        
+
       </Box>
     </Box>
   );

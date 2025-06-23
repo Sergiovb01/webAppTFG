@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-//Gestionar si ek perfil esta creado o no
 export const perfilSlice = createSlice({
   name: 'perfil',
-  initialState: {
+  initialState: {              
     isPerfilCreated: false
   },
   reducers: {
@@ -16,4 +15,4 @@ export const perfilSlice = createSlice({
   }
 });
 
-export const { setPerfilCreado, setPerfilNoCreado } = perfilSlice.actions;
+export const { setPerfil, setPerfilCreado, setPerfilNoCreado } = perfilSlice.actions;

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { usePerfilStore } from '../../hooks';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { useAuthStore, usePerfilStore } from "../../hooks";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Grid,
@@ -22,36 +22,57 @@ import {
   Twitter as TwitterIcon,
   LinkedIn as LinkedInIcon
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { useUsuarioStore } from '../../hooks/useUsuarioStore';
 
-export const PerfilUsuario = () => {
-  const { startCargarPerfil, perfil } = usePerfilStore();
-  const { user } = useSelector(state => state.auth);
-  const {obtenerSeguidoresYSeguidos, seguidores, seguidos} = useUsuarioStore();
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { useUsuarioStore } from "../../hooks/useUsuarioStore";
 
-  const socialIcons = {
+export const PerfilUserId = () => {
+  const { id } = useParams();
+  const { cargarPerfilId, perfil, loading } = usePerfilStore();
+  const { seguirUsuario, dejarDeSeguirUsuario} = useUsuarioStore();
+  const [isFollowing, setIsFollowing] = useState(false);
+  const { user: currentUser } = useAuthStore(); // Usuario autenticado
+  const navigate = useNavigate();
+   const socialIcons = {
     Instagram: <InstagramIcon />, 
     Twitter: <TwitterIcon />, 
     LinkedIn: <LinkedInIcon />
   };
-console.log('perfil', perfil);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    startCargarPerfil();
-    obtenerSeguidoresYSeguidos();
-  }, []);
+    cargarPerfilId(id);
+  }, [id]);
+console.log('Perfil data:', perfil);
+  // Verifica si el usuario autenticado ya sigue al usuario mostrado
+  useEffect(() => {
+  if (perfil && perfil.user && perfil.user.seguidores?.includes(currentUser.uid)) {
+    setIsFollowing(true);
+  }
+}, [perfil, currentUser]);
 
-  if (!perfil) return <Typography align="center" mt={10}>Cargando perfil...</Typography>;
+// Maneja el evento de seguir/dejar de seguir
+const handleFollowToggle = async () => {
+  let success = false;
+  if (isFollowing) {
+    success = await dejarDeSeguirUsuario(perfil.user._id);
+  } else {
+    success = await seguirUsuario(perfil.user._id);
+  }
+
+  if (success) setIsFollowing(!isFollowing);
+};
+  if (loading || !perfil) {
+    return <div>Cargando...</div>;
+  }
 
   return (
-    <Box sx={{ minHeight: '100vh', p: 2 }}>
+     <Box sx={{ minHeight: '100vh', p: 2 }}>
       <Container maxWidth="xl">
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={4}>
           {/* Perfil a la izquierda */}
           <Box sx={{ flexShrink: 0, minWidth: 300, maxWidth: 400, width: '100%' }}>
-            <Stack spacing={2}>
+            <Stack spacing={1}>
               <Card elevation={1} sx={{ borderRadius: 2, backgroundColor: 'white' }}>
                 <CardContent sx={{ textAlign: 'center', py: 3 }}>
                   <Avatar
@@ -60,39 +81,39 @@ console.log('perfil', perfil);
                   >
                     {!perfil.photo && <PersonIcon sx={{ fontSize: 40, color: 'white' }} />}
                   </Avatar>
-                  <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>{user.name}</Typography>
-                  <Box display="flex" justifyContent="center" gap={4}>
+                  <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>{perfil.user.name}</Typography>
+                   <Box display="flex" justifyContent="center" sx={{ mb: 3 }}>
+                    <Button
+                        onClick={handleFollowToggle}
+                        variant={isFollowing ? "outlined" : "contained"}
+                        color="primary"
+                        size="small"
+                        startIcon={isFollowing ? <PersonRemoveIcon /> : <PersonAddAlt1Icon />}
+                        sx={{ textTransform: 'none', borderRadius: 2 }}
+                    >
+                        {isFollowing ? "Dejar de seguir" : "Seguir"}
+                    </Button>
+                </Box>
+                  {/* <Box display="flex" justifyContent="center" gap={4}>
                     <Box
                       textAlign="center"
-                      onClick={() => navigate('/seguidores')}
                       sx={{
-                        cursor: 'pointer',
-                        '&:hover': {
-                          color: '#071eec',
-                          transform: 'scale(1.03)',
-                          transition: 'all 0.2s ease-in-out',
-                        },
+                        cursor: 'default',
                       }}
                     >
-                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5}}>{seguidores.length}</Typography>
+                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>32</Typography>
                       <Typography variant="caption" color="text.secondary">Seguidores</Typography>
                     </Box>
                     <Box
                       textAlign="center"
-                      onClick={() => navigate('/seguidores')}
                       sx={{
-                        cursor: 'pointer',
-                        '&:hover': {
-                          color: '#071eec',
-                          transform: 'scale(1.03)',
-                          transition: 'all 0.2s ease-in-out',
-                        },
+                        cursor: 'default',
                       }}
                     >
-                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>{seguidos.length}</Typography>
+                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>45</Typography>
                       <Typography variant="caption" color="text.secondary">Siguiendo</Typography>
                     </Box>
-                  </Box>
+                  </Box> */}
                 </CardContent>
               </Card>
 
@@ -156,14 +177,8 @@ console.log('perfil', perfil);
               </Card>
 
               <Stack direction="row" spacing={2} justifyContent="center">
-                <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }} onClick={() => navigate('/mis-proyectos')}>
-                  MIS PROYECTOS
-                </Button>
-                <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }} onClick={() => navigate('/favoritos')}>
-                  FAVORITOS
-                </Button>
-                <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }} onClick={() => navigate('/editar-perfil')}>
-                  EDITAR
+                <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }} onClick={() => navigate(`/proyectos-usuario/${perfil.user._id}`)}>
+                 PROYECTOS
                 </Button>
               </Stack>
             </Stack>
@@ -205,5 +220,7 @@ console.log('perfil', perfil);
         </Box>
       </Container>
     </Box>
-  );
-};
+  )
+}
+
+

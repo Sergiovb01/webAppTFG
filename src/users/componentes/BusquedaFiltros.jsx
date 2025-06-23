@@ -2,14 +2,14 @@ import { Box, FormControl, InputLabel, Select, MenuItem, IconButton, Stack, Chip
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 
-const categories = ["Ilustración", "Diseño", "3D"];
-const locations = ["Madrid", "Barcelona", "Online"];
-const skills = ["Photoshop", "Blender", "Illustrator"];
-const softwares = ["Figma", "Unity", "Maya"];
 
-export const BusquedaFiltros = () => {
+const locations = ['España', 'México', 'Argentina'];
+const skills = ['Modelado','Animación','Ilustración','Iluminación','Composición','Rotoscopia','Simulación de partículas','Tracking de cámara','Motion Graphics','Texturizado','Rigging','Postproducción','Layout','Storyboarding','Dirección de arte','Edición de video','Color Grading','Concept Art','Renderizado'];
+const softwares = [ 'Photoshop', 'Blender', 'After Effects', 'Maya', 'Nuke', 'DaVinci Resolve', 'Substance Painter', '3ds Max', 'Cinema 4D', 'ZBrush', 'Houdini', 'Premiere Pro', 'Unreal Engine', 'Unity', 'Krita', 'Fusion'];
+
+export const BusquedaFiltros = ({ onSearch }) => {
+
   const [filters, setFilters] = useState({
-    category: "",
     location: "",
     skill: "",
     software: "",
@@ -24,6 +24,13 @@ export const BusquedaFiltros = () => {
     setFilters((prev) => ({ ...prev, [field]: "" }));
   };
 
+  const handleSearchClick = () => {
+    // Aquí podrías implementar la lógica de búsqueda
+    onSearch(filters);
+  }
+
+  
+
   return (
     <Box p={2}>
       {/* Filtros */}
@@ -34,22 +41,6 @@ export const BusquedaFiltros = () => {
         flexWrap="wrap"
         justifyContent="center"
       >
-        {/* Categoría */}
-        <FormControl size="small" sx={{ minWidth: 150 }}>
-          <InputLabel id="category-label">Categoría</InputLabel>
-          <Select
-            labelId="category-label"
-            name="category"
-            value={filters.category}
-            onChange={handleChange}
-            label="Categoría"
-          >
-            <MenuItem value=""><em>Ninguno</em></MenuItem>
-            {categories.map((cat) => (
-              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
 
         {/* Ubicación */}
         <FormControl size="small" sx={{ minWidth: 150 }}>
@@ -102,7 +93,7 @@ export const BusquedaFiltros = () => {
           </Select>
         </FormControl>
 
-        <IconButton>
+        <IconButton  onClick={handleSearchClick}>
           <SearchIcon />
         </IconButton>
       </Box>

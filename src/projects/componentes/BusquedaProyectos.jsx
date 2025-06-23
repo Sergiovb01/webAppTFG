@@ -13,11 +13,11 @@ import {
 import { Search, Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-const categories = ["Web Development", "Mobile Development", "Data Analysis", "IoT", "AI/ML"];
-const skills = ["React", "Flutter", "Python", "Node.js", "Arduino", "TensorFlow"];
-const software = ["Visual Studio Code", "Android Studio", "Jupyter Notebook", "VS Code", "Arduino IDE", "Google Colab"];
+const categories = ["Ilustración", "Diseño", "3D", "Animación"];
+const skills = ["Ilustrador", "Modelador 3D", "Diseñador", "Animador"]
+const software = ["Photoshop", "Blender", "Figma", "Procreate"];
 
-export const BusquedaProyectos = () => {
+export const BusquedaProyectos = ({ onSearch }) => {
   const [filters, setFilters] = useState({
     category: '',
     skill: '',
@@ -32,7 +32,7 @@ export const BusquedaProyectos = () => {
   };
 
   const handleSearch = () => {
-    console.log(`Buscar proyectos con categoría: ${filters.category}, habilidad: ${filters.skill}, software: ${filters.software}`);
+    onSearch(filters);
   };
 
   return (
@@ -46,7 +46,7 @@ export const BusquedaProyectos = () => {
         gap={2}
       >
         {/* Filtros */}
-        <Box display="flex" gap={2} flexWrap="wrap">
+        <Box display="flex" gap={2} flexWrap="wrap" >
           {/* Categoría */}
           <FormControl size="small" sx={{ minWidth: 150 }}>
             <InputLabel id="category-label">Categoría</InputLabel>
