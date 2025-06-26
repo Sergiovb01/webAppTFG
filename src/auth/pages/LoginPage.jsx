@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useAuthStore, useForm, usePerfilStore } from '../../hooks';
 import './loginPage.css';
 import Swal from 'sweetalert2';
+import { Box, Typography } from '@mui/material';
 
 
 
@@ -47,6 +48,19 @@ export const LoginPage = () => {
             Swal.fire('Error en el registro', 'Las contraseñas no coinciden', 'error')
             return;
         }
+        if(registerName.length === 0){
+            Swal.fire('Error en el registro', 'El nombre es obligatorio', 'error')
+            return;
+        }
+        if(registerEmail.length === 0){
+            Swal.fire('Error en el registro', 'El correo es obligatorio', 'error')  
+            return;
+        }
+        if(registerPassword.length < 6){    
+            Swal.fire('Error en el registro', 'La contraseña debe tener al menos 6 caracteres', 'error')
+            return;
+
+        } 
 
         startRegister({name: registerName, email: registerEmail, password: registerPassword})
 
@@ -63,6 +77,26 @@ export const LoginPage = () => {
 
     return (
         <div className="container login-container">
+        <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            mb={4} // margen inferior para separar del formulario
+        >
+            <Box
+                component="img"
+                src="/img/logo.png"
+                alt="Logo"
+                sx={{width: 60, height: 60}}
+            />
+            <Typography
+                variant="h5"
+                component="div"
+                sx={{ fontWeight: 'bold', color: '#0044CC', ml: 1,  }}
+            >
+                CollabSphere
+            </Typography>
+        </Box>
             <div className="row">
                 <div className="col-md-6 login-form-1">
                     <h3>Ingreso</h3>

@@ -6,12 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useProyectoStore } from '../../hooks/useProyectoStore';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { usePerfilStore } from '../../hooks';
+import { SinPerfil } from '../../componentes/sinPerfil';
 
 
 
-const categorias = ["Ilustración", "Diseño", "3D", "Animación"];
-const tiposArtista = ["Ilustrador", "Modelador 3D", "Diseñador", "Animador"];
-const softwares = ["Photoshop", "Blender", "Figma", "Procreate"];
+const categorias = ["Ciencia Ficción","Espacial","Fantasia","Cyberpunk","Postapocalíptico","Medieval","Steampunk","Superhéroes","Terror","Realismo","Low Poly","Cartoon","Pixel Art", "Western", "Anime", "Horror", "Slice of Life", "Aventura", "Comedia", "Romance", "Thriller", "Drama"];
+const tiposArtista = [ "Ilustrador", "Modelador 3D", "Diseñador Gráfico", "Animador 2D", "Animador 3D", "Concept Artist", "Diseñador UI/UX", "Storyboard Artist", "Diseñador de Personajes", "Diseñador de Entornos", "Rigging Artist", "VFX Artist", "Director de Arte", "Editor de Video", "Motion Grapher", "Escultor Digital"];
+const softwares = [ "Photoshop", "Blender", "Figma", "Procreate", "After Effects", "Maya", "ZBrush", "Substance Painter", "Illustrator", "Cinema 4D", "Unreal Engine", "Unity", "Premiere Pro", "Krita", "Clip Studio Paint", "3ds Max", "Houdini", "DaVinci Resolve", "Nuke"];
+
 
 export const CrearProyecto = ( { initialData = null, onSubmit }) => {
   const [titulo, setTitulo] = useState("");
@@ -21,6 +24,10 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
   const [software, setSoftware] = useState([]);
   const [imagenes, setImagenes] = useState([]);
   const [imagenesNuevas, setImagenesNuevas] = useState([]); 
+
+   const { comprobarPerfil } = usePerfilStore();
+   const [perfilExiste, setPerfilExiste] = useState(null); 
+   const {startCerrarProyecto} = useProyectoStore();
 
 
   const navigate = useNavigate();
@@ -38,6 +45,19 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
     }
   }, [initialData]);
 
+   useEffect(() => {
+    const verificarPerfil = async () => {
+      const perfil = await comprobarPerfil();
+      if (perfil) {
+        setPerfilExiste(true);
+      } else {
+        setPerfilExiste(false);
+      }
+    };
+
+    verificarPerfil();
+  }, []);
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
@@ -48,6 +68,10 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
 
     setImagenesNuevas(prev => [...prev, ...nuevos]);
   };
+  const cerrarProyecto = () => {
+    startCerrarProyecto(initialData._id);
+    navigate('/mis-proyectos');
+  }
 
   const handleCrearProyecto = () => {
   if (!titulo || !descripcion || categoria.length === 0 || tipoArtista.length === 0 || software.length === 0) {
@@ -65,14 +89,28 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
  onSubmit(data);
 };
 
+ // Si no hay perfil, mostramos aviso
+    if (!perfilExiste) {
+      return <SinPerfil />;
+    }
+
   return (
     <Box maxWidth="md" mx="auto" px={2} py={4}>
-      <Typography variant="h4" fontWeight={600} textAlign="center" gutterBottom>
+      {
+        (initialData ? (
+          <Typography variant="h4" fontWeight={600} textAlign="center" gutterBottom sx={{ color: '#071eec' }}>
+        Editar Proyecto
+      </Typography>
+        ):(
+          <Typography variant="h4" fontWeight={600} textAlign="center" gutterBottom sx={{ color: '#071eec' }}>
         Crear Nuevo Proyecto
       </Typography>
+        ))
+      }
+      
 
       <Box my={2}>
-        <Typography variant="subtitle1" gutterBottom>Título</Typography>
+        <Typography variant="subtitle1" gutterBottom>Título *</Typography>
         <TextField
           fullWidth
           placeholder="Ingresa el título de tu proyecto"
@@ -82,7 +120,7 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
       </Box>
 
       <Box my={2}>
-        <Typography variant="subtitle1" gutterBottom>Descripción</Typography>
+        <Typography variant="subtitle1" gutterBottom>Descripción *</Typography>
         <TextField
           fullWidth
           multiline
@@ -94,10 +132,10 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
       </Box>
 
       <Box my={2}>
-        <Typography variant="subtitle1" gutterBottom>Características del proyecto</Typography>
+        <Typography variant="subtitle1" gutterBottom>Características del proyecto *</Typography>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <FormControl fullWidth>
-            <InputLabel>Categoría</InputLabel>
+            <InputLabel>Categoría *</InputLabel>
             <Select
               multiple
               value={categoria}
@@ -118,7 +156,7 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
           </FormControl>
 
           <FormControl fullWidth>
-            <InputLabel>Tipo de artista</InputLabel>
+            <InputLabel>Tipo de artista *</InputLabel>
             <Select
               multiple
               value={tipoArtista}
@@ -139,7 +177,7 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
           </FormControl>
 
           <FormControl fullWidth>
-            <InputLabel>Software</InputLabel>
+            <InputLabel>Software *</InputLabel>
             <Select
               multiple
               value={software}
@@ -226,7 +264,7 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
           className='volver'
           variant="outlined"
           color="secondary"
-          onClick={() => navigate('/projects')}
+          onClick={() => navigate('/mis-proyectos')}
           sx={{ px: 4, py: 1.5 }}
         >
           Volver
@@ -243,13 +281,13 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
           </Button>
 
           <Button
-          className='volver'
+          className='boton-cerrar'
           variant="outlined"
           color="secondary"
-          onClick={() => navigate('/projects')}
+          onClick={cerrarProyecto}
           sx={{ px: 4, py: 1.5 }}
         >
-          Cerrar
+          Cerrar Proyecto
         </Button>
         </>
         ) : (
@@ -263,8 +301,6 @@ export const CrearProyecto = ( { initialData = null, onSubmit }) => {
           </Button>
           
         ))}
-
-        
 
       </Box>
     </Box>

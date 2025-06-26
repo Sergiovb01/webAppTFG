@@ -66,7 +66,7 @@ export const SinPerfil = () => {
                 left: 0,
                 right: 0,
                 height: '4px',
-                background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)'
+                background: 'linear-gradient(90deg, #667eea 0%,rgb(3, 65, 199) 100%)'
               }
             }}
           >
@@ -77,7 +77,7 @@ export const SinPerfil = () => {
                   width: 80,
                   height: 80,
                   mx: 'auto',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #667eea 0%,rgb(15, 38, 240) 100%)',
                   mb: 2
                 }}
               >
@@ -91,7 +91,7 @@ export const SinPerfil = () => {
               gutterBottom
               sx={{
                 fontWeight: 'bold',
-                background: 'linear-gradient(45deg, #667eea, #764ba2)',
+                background: 'linear-gradient(45deg, #667eea,rgb(9, 90, 240))',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -125,11 +125,6 @@ export const SinPerfil = () => {
                       borderRadius: 3,
                       background: 'rgba(255,255,255,0.7)',
                       border: '1px solid rgba(0,0,0,0.05)',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: '0 8px 25px rgba(0,0,0,0.1)'
-                      }
                     }}
                   >
                     <Box sx={{ mb: 2 }}>
@@ -173,24 +168,6 @@ export const SinPerfil = () => {
                 }}
               >
                 Crear mi perfil
-              </Button>
-
-              <Button
-                variant="outlined"
-                size="large"
-                onClick={() => navigate('/login')}
-                sx={{
-                  py: 1.5,
-                  px: 4,
-                  borderRadius: 3,
-                  borderColor: 'primary.main',
-                  '&:hover': {
-                    borderColor: 'primary.dark',
-                    background: 'rgba(102, 126, 234, 0.05)'
-                  }
-                }}
-              >
-                Ya tengo cuenta
               </Button>
             </Stack>
 

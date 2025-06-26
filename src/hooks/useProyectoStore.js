@@ -167,6 +167,26 @@ console.log('Publicaciones obtenidas:', data);
   }
 }
 
+const startCerrarProyecto = async (id) => {
+  try {
+    await webbAppApi.put(`/publicaciones/cerrar/${id}`); // Endpoint para cambiar el estado
+    Swal.fire({
+      icon: 'success',
+      title: 'Proyecto cerrado',
+      text: 'El proyecto ha sido marcado como cerrado.',
+      confirmButtonColor: '#3085d6'
+    });
+
+
+  } catch (error) {
+    console.error('Error al cerrar el proyecto:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo cerrar el proyecto. Intenta de nuevo.',
+    });
+  }
+};
   return {
     startCrearProyecto,
     proyecto,
@@ -178,6 +198,7 @@ console.log('Publicaciones obtenidas:', data);
     publicaciones,
     publicacionesUsuario,
     obtenrPublicacionesPorUsuario,
+    startCerrarProyecto,
     publicacion,
     misPublicaciones,
     isLoading

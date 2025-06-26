@@ -76,12 +76,12 @@ export const TarjetaFavorito = ({ proyecto }) => {
               alt={proyecto.titulo || 'Proyecto'}
               onLoad={handleImageLoad}
               sx={{
-                transition: 'transform 0.3s ease',
+                transition: 'transform 0.5s ease',
                 '&:hover': {
                   transform: 'scale(1.05)',
                 },
                 opacity: imageLoaded ? 1 : 0,
-                transition: 'opacity 0.3s ease'
+                transition: 'opacity 0.5s ease'
               }}
             />
             
@@ -148,7 +148,7 @@ export const TarjetaFavorito = ({ proyecto }) => {
             </Box>
 
             {/* Botón de eliminar de favoritos */}
-            <Tooltip title="Eliminar de favoritos" placement="left">
+            <Tooltip  placement="left">
               <IconButton
                 onClick={handleRemove}
                 sx={{

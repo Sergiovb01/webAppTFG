@@ -67,14 +67,26 @@ export const Navbar = () => {
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ fontWeight: 'bold', color: '#0066FF', cursor: 'pointer', ml: 5 }}
+          
+          <Box 
+            sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} 
             onClick={() => navigate('/')}
           >
-            MiApp
-          </Typography>
+            <Box
+              component="img"
+              src="/img/logo.png"
+              alt="Logo"
+              sx={{ width: 40, height: 40 }}
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ fontWeight: 'bold', color: '#0044CC', ml: 0.5 }}
+            >
+              CollabSphere
+            </Typography>
+            
+          </Box>
 
           {isMobile ? (
             <>
@@ -111,9 +123,6 @@ export const Navbar = () => {
                 </IconButton>
                 <IconButton onClick={checkPerfil}>
                   <PersonIcon sx={{ color: iconColor }} />
-                </IconButton>
-                <IconButton>
-                  <SettingsIcon sx={{ color: iconColor }} />
                 </IconButton>
                 <IconButton onClick={startLogout}>
                   <LogoutIcon sx={{ color: '#FF5C5C' }} />

@@ -20,7 +20,7 @@ export const ProyectosUsuario = () => {
 
   return (
     <Box px={4} py={6}>
-      <Typography variant="h5" textAlign="center" fontWeight={600} gutterBottom>
+      <Typography variant="h4" textAlign="center" fontWeight={600} gutterBottom sx={{ color: '#071eec' }}>
         Proyectos del Usuario
       </Typography>
 

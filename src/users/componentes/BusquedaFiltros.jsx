@@ -94,7 +94,7 @@ export const BusquedaFiltros = ({ onSearch }) => {
         </FormControl>
 
         <IconButton  onClick={handleSearchClick}>
-          <SearchIcon />
+          <SearchIcon sx={{color:'#071eec'}} />
         </IconButton>
       </Box>
 

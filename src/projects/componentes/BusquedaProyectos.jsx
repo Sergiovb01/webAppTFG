@@ -13,9 +13,10 @@ import {
 import { Search, Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-const categories = ["Ilustración", "Diseño", "3D", "Animación"];
-const skills = ["Ilustrador", "Modelador 3D", "Diseñador", "Animador"]
-const software = ["Photoshop", "Blender", "Figma", "Procreate"];
+
+const categories = ["Ciencia Ficción","Espacial","Fantasia","Cyberpunk","Postapocalíptico","Medieval","Steampunk","Superhéroes","Terror","Realismo","Low Poly","Cartoon","Pixel Art", "Western", "Anime", "Horror", "Slice of Life", "Aventura", "Comedia", "Romance", "Thriller", "Drama"];
+const skills = [ "Ilustrador", "Modelador 3D", "Diseñador Gráfico", "Animador 2D", "Animador 3D", "Concept Artist", "Diseñador UI/UX", "Storyboard Artist", "Diseñador de Personajes", "Diseñador de Entornos", "Rigging Artist", "VFX Artist", "Director de Arte", "Editor de Video", "Motion Grapher", "Escultor Digital"];
+const software = [ "Photoshop", "Blender", "Figma", "Procreate", "After Effects", "Maya", "ZBrush", "Substance Painter", "Illustrator", "Cinema 4D", "Unreal Engine", "Unity", "Premiere Pro", "Krita", "Clip Studio Paint", "3ds Max", "Houdini", "DaVinci Resolve", "Nuke"]
 
 export const BusquedaProyectos = ({ onSearch }) => {
   const [filters, setFilters] = useState({
@@ -99,7 +100,7 @@ export const BusquedaProyectos = ({ onSearch }) => {
           </FormControl>
 
           <IconButton onClick={handleSearch}>
-            <Search />
+            <Search sx={{color:'#071eec'}} />
           </IconButton>
         </Box>
 

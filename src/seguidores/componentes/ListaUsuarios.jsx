@@ -15,6 +15,7 @@ export const ListaUsuarios = ({ titulo, usuarios, onAccion, contexto }) => {
           mb: 2,
           textTransform: 'uppercase',
           fontSize: '1.5rem',
+          color: '#071eec',
         }}
       >
         {titulo}

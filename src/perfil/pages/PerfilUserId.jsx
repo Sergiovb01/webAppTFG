@@ -11,7 +11,8 @@ import {
   Chip,
   Stack,
   Button,
-  Container
+  Container,
+  Modal 
 } from '@mui/material';
 import {
   Engineering as EngineeringIcon,
@@ -22,7 +23,7 @@ import {
   Twitter as TwitterIcon,
   LinkedIn as LinkedInIcon
 } from '@mui/icons-material';
-
+import MailIcon from '@mui/icons-material/Mail';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { useUsuarioStore } from "../../hooks/useUsuarioStore";
@@ -33,6 +34,8 @@ export const PerfilUserId = () => {
   const { seguirUsuario, dejarDeSeguirUsuario} = useUsuarioStore();
   const [isFollowing, setIsFollowing] = useState(false);
   const { user: currentUser } = useAuthStore(); // Usuario autenticado
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
    const socialIcons = {
     Instagram: <InstagramIcon />, 
@@ -50,7 +53,6 @@ console.log('Perfil data:', perfil);
     setIsFollowing(true);
   }
 }, [perfil, currentUser]);
-
 // Maneja el evento de seguir/dejar de seguir
 const handleFollowToggle = async () => {
   let success = false;
@@ -66,54 +68,55 @@ const handleFollowToggle = async () => {
     return <div>Cargando...</div>;
   }
 
+  const handleOpen = (item) => {
+    setSelectedItem(item);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedItem(null);
+  };
+
   return (
      <Box sx={{ minHeight: '100vh', p: 2 }}>
       <Container maxWidth="xl">
-        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={4}>
+        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={10}>
           {/* Perfil a la izquierda */}
           <Box sx={{ flexShrink: 0, minWidth: 300, maxWidth: 400, width: '100%' }}>
             <Stack spacing={1}>
               <Card elevation={1} sx={{ borderRadius: 2, backgroundColor: 'white' }}>
                 <CardContent sx={{ textAlign: 'center', py: 3 }}>
                   <Avatar
-                    sx={{ width: 80, height: 80, mx: 'auto', mb: 2, bgcolor: '#6c757d' }}
+                    sx={{ width: 80, height: 80, mx: 'auto', mb: 1, bgcolor: '#6c757d' }}
                     src={perfil.photo || ''}
                   >
                     {!perfil.photo && <PersonIcon sx={{ fontSize: 40, color: 'white' }} />}
                   </Avatar>
-                  <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>{perfil.user.name}</Typography>
-                   <Box display="flex" justifyContent="center" sx={{ mb: 3 }}>
+                  <Typography variant="h6" sx={{ mb: 1, fontWeight: 500 }}>{perfil.user.name}</Typography>
+                   <Box sx={{ mb: 3 }}>
+                  {/* Email */}
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 2 }}>
+                    <MailIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                    <Typography variant="body2" color="text.secondary">
+                      {perfil.user.email || 'Email no disponible'}
+                    </Typography>
+                  </Box>
+
+                  {/* Botón Seguir/Dejar de seguir */}
+                  <Box display="flex" justifyContent="center">
                     <Button
-                        onClick={handleFollowToggle}
-                        variant={isFollowing ? "outlined" : "contained"}
-                        color="primary"
-                        size="small"
-                        startIcon={isFollowing ? <PersonRemoveIcon /> : <PersonAddAlt1Icon />}
-                        sx={{ textTransform: 'none', borderRadius: 2 }}
+                      onClick={handleFollowToggle}
+                      variant={isFollowing ? "outlined" : "contained"}
+                      color="primary"
+                      size="small"
+                      startIcon={isFollowing ? <PersonRemoveIcon /> : <PersonAddAlt1Icon />}
+                      sx={{ textTransform: 'none', borderRadius: 2 }}
                     >
-                        {isFollowing ? "Dejar de seguir" : "Seguir"}
+                      {isFollowing ? "Dejar de seguir" : "Seguir"}
                     </Button>
+                  </Box>
                 </Box>
-                  {/* <Box display="flex" justifyContent="center" gap={4}>
-                    <Box
-                      textAlign="center"
-                      sx={{
-                        cursor: 'default',
-                      }}
-                    >
-                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>32</Typography>
-                      <Typography variant="caption" color="text.secondary">Seguidores</Typography>
-                    </Box>
-                    <Box
-                      textAlign="center"
-                      sx={{
-                        cursor: 'default',
-                      }}
-                    >
-                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 0.5 }}>45</Typography>
-                      <Typography variant="caption" color="text.secondary">Siguiendo</Typography>
-                    </Box>
-                  </Box> */}
                 </CardContent>
               </Card>
 
@@ -190,7 +193,10 @@ const handleFollowToggle = async () => {
               {perfil.portafolio.length > 0 ? (
                 perfil.portafolio.map((item, index) => (
                   <Grid item xs={12} sm={6} md={3} key={index}>
-                    <Card elevation={2} sx={{ borderRadius: 2, bgcolor: '#f5f5f5' }}>
+                    <Card 
+                      elevation={2}
+                      sx={{ borderRadius: 2, bgcolor: '#f5f5f5', cursor: 'pointer' }}
+                      onClick={() => handleOpen(item)}>
                       {item.tipo === 'imagen' ? (
                         <Box
                           component="img"
@@ -216,6 +222,28 @@ const handleFollowToggle = async () => {
                 </Grid>
               )}
             </Grid>
+
+            {/* Modal para ver la imagen/video ampliado */}
+            <Modal open={open} onClose={handleClose} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
+              <Box sx={{ maxWidth: 800, maxHeight: 450, width: '100%', borderRadius: 2 }}>
+                {selectedItem && selectedItem.tipo === 'imagen' ? (
+                  <Box
+                    component="img"
+                    src={selectedItem.url}
+                    alt="portafolio ampliado"
+                    sx={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 2 }}
+                  />
+                ) : selectedItem && selectedItem.tipo === 'video' ? (
+                  <Box
+                    component="video"
+                    controls
+                    src={selectedItem.url}
+                    sx={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 2 }}
+                  />
+                ) : null}
+              </Box>
+            </Modal>
+
           </Box>
         </Box>
       </Container>

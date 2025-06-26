@@ -1,5 +1,5 @@
 
-import { Card, CardContent, Typography, Box, Container, Grid } from '@mui/material';
+import { Card, CardContent, Typography, Box, Container, Grid, Fade } from '@mui/material';
 import { Add, People, Search } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,6 +30,7 @@ export const HomePage = () => {
 
   return (
     <Container maxWidth="lg">
+      <Fade in timeout={800}>
       <Box
         sx={{
           minHeight: '80vh', // <- menos altura mínima
@@ -125,6 +126,7 @@ export const HomePage = () => {
           ))}
         </Grid>
       </Box>
+      </Fade>
     </Container>
   );
 }

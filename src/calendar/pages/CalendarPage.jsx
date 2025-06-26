@@ -7,6 +7,8 @@ import {getMessagesES} from '../../helpers'
 import { CalendarEvent } from '../components/CalendarEvent'
 import { useState } from 'react'
 import { CalendarModal } from '../components/CalendarModal'
+import { Fade } from '@mui/material'
+
 
 const locales = {
   'es': es,
@@ -148,6 +150,7 @@ const eventStyleGetter = (event, start, end, isSelected) => {
 
   return (
     <>
+    
       <Calendar
         culture='es' //Calendario en español
         localizer={localizer}

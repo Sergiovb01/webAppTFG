@@ -119,13 +119,6 @@ export const PostulacionesPage = () => {
                       style={{ transitionDelay: `${index * 50}ms` }}
                     >
                       <Box
-                        sx={{
-                          transform: 'translateY(0)',
-                          transition: 'all 0.3s ease-in-out',
-                          '&:hover': {
-                            transform: 'translateY(-4px)'
-                          }
-                        }}
                       >
                         <PostulacionCard
                           postulacion={post}

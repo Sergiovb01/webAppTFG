@@ -53,7 +53,7 @@ const handleFollowToggle = async () => {
       {/* Contenedor para galería */}
       <Box sx={{ width: "100%", border: "1px solid #ccc", borderRadius: 2, p: 2, mb: 2, backgroundColor: "#f9f9f9" }}>
         <ImageList sx={{ width: "100%" }} cols={3} rowHeight={164}>
-          {user.portafolio.map((item, index) => (
+          {user.portafolio.slice(0, 6).map((item, index) => (
             <ImageListItem key={index}>
               {item.tipo === 'imagen' ? (
               <img

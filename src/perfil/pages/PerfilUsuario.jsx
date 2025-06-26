@@ -11,7 +11,8 @@ import {
   Chip,
   Stack,
   Button,
-  Container
+  Container,
+  Modal
 } from '@mui/material';
 import {
   Engineering as EngineeringIcon,
@@ -30,6 +31,11 @@ export const PerfilUsuario = () => {
   const { user } = useSelector(state => state.auth);
   const {obtenerSeguidoresYSeguidos, seguidores, seguidos} = useUsuarioStore();
 
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+
+
   const socialIcons = {
     Instagram: <InstagramIcon />, 
     Twitter: <TwitterIcon />, 
@@ -43,12 +49,22 @@ console.log('perfil', perfil);
     obtenerSeguidoresYSeguidos();
   }, []);
 
+   const handleOpen = (item) => {
+    setSelectedItem(item);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedItem(null);
+  };
+
   if (!perfil) return <Typography align="center" mt={10}>Cargando perfil...</Typography>;
 
   return (
     <Box sx={{ minHeight: '100vh', p: 2 }}>
       <Container maxWidth="xl">
-        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={4}>
+        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={10}>
           {/* Perfil a la izquierda */}
           <Box sx={{ flexShrink: 0, minWidth: 300, maxWidth: 400, width: '100%' }}>
             <Stack spacing={2}>
@@ -155,7 +171,7 @@ console.log('perfil', perfil);
                 </CardContent>
               </Card>
 
-              <Stack direction="row" spacing={2} justifyContent="center">
+              <Stack direction="row" spacing={1} justifyContent="center">
                 <Button variant="contained" sx={{ bgcolor: '#000', color: '#d4ff00', '&:hover': { bgcolor: '#222' }, fontWeight: 700, fontSize: '0.75rem', borderRadius: 1, px: 3, py: 1.2 }} onClick={() => navigate('/mis-proyectos')}>
                   MIS PROYECTOS
                 </Button>
@@ -175,7 +191,10 @@ console.log('perfil', perfil);
               {perfil.portafolio.length > 0 ? (
                 perfil.portafolio.map((item, index) => (
                   <Grid item xs={12} sm={6} md={3} key={index}>
-                    <Card elevation={2} sx={{ borderRadius: 2, bgcolor: '#f5f5f5' }}>
+                    <Card 
+                      elevation={2}
+                      sx={{ borderRadius: 2, bgcolor: '#f5f5f5', cursor: 'pointer' }}
+                      onClick={() => handleOpen(item)}>
                       {item.tipo === 'imagen' ? (
                         <Box
                           component="img"
@@ -184,7 +203,11 @@ console.log('perfil', perfil);
                           sx={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 2 }}
                         />
                       ) : (
-                        <Box component="video" controls src={item.url} sx={{ width: '100%', height: 180, borderRadius: 2 }} />
+                        <video
+                          src={item.url}
+                          controls
+                          style={{ width: '100%', height: 180, borderRadius: 8, objectFit: 'cover' }}
+                        />
                       )}
                     </Card>
                   </Grid>
@@ -201,6 +224,28 @@ console.log('perfil', perfil);
                 </Grid>
               )}
             </Grid>
+
+        {/* Modal para ver la imagen/video ampliado */}
+          <Modal open={open} onClose={handleClose} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
+            <Box sx={{ maxWidth: 800, maxHeight: 450, width: '100%', borderRadius: 2 }}>
+              {selectedItem && selectedItem.tipo === 'imagen' ? (
+                <Box
+                  component="img"
+                  src={selectedItem.url}
+                  alt="portafolio ampliado"
+                  sx={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 2 }}
+                />
+              ) : selectedItem && selectedItem.tipo === 'video' ? (
+                <Box
+                  component="video"
+                  controls
+                  src={selectedItem.url}
+                  sx={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 2 }}
+                />
+              ) : null}
+            </Box>
+          </Modal>
+
           </Box>
         </Box>
       </Container>

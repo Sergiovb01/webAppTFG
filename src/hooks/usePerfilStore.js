@@ -24,19 +24,18 @@ export const usePerfilStore = () => {
    const startCrearPerfil = async (formData) => {
     try {
       // Subir foto de perfil
+      setLoading(true);
       let photoUrl = '';
       if (formData.profilePhoto) {
-        photoUrl = await uploadImageToCloudinary(formData.profilePhoto);
+        const { url } = await uploadImageToCloudinary(formData.profilePhoto);
+        photoUrl = url;
       }
 
       // Subir archivos del portafolio
       const portafolio = await Promise.all(
         formData.portfolioFiles.map(async (file) => {
-          const url = await uploadImageToCloudinary(file);
-          return {
-            url,
-            tipo: file.type.startsWith('video') ? 'video' : 'imagen',
-          };
+           const { url, tipo } = await uploadImageToCloudinary(file);
+           return { url, tipo };
         })
       );
 
@@ -68,6 +67,7 @@ export const usePerfilStore = () => {
       } else {
         dispatch(setPerfilNoCreado());
       }
+      setLoading(false);
       navigate('/perfil'); // Redirigir al perfil después de crear
 
     } catch (error) {
@@ -78,21 +78,19 @@ export const usePerfilStore = () => {
 
   const startActualizarPerfil = async (formData) => {
   try {
-    
+    setLoading(true);
     // Subir foto de perfil si hay una nueva
     let photoUrl = formData.existingPhoto || '';
     if (formData.profilePhoto) {
-      photoUrl = await uploadImageToCloudinary(formData.profilePhoto);
+      const { url } = await uploadImageToCloudinary(formData.profilePhoto);
+      photoUrl = url;
     }
 
-    // Subir archivos nuevos del portafolio
+   // Subir archivos nuevos del portafolio
     const nuevosArchivos = await Promise.all(
       (formData.portfolioFiles || []).map(async (file) => {
-        const url = await uploadImageToCloudinary(file);
-        return {
-          url,
-          tipo: file.type.startsWith('video') ? 'video' : 'imagen',
-        };
+        const { url, tipo } = await uploadImageToCloudinary(file);
+        return { url, tipo };
       })
     );
 
@@ -129,6 +127,7 @@ export const usePerfilStore = () => {
     } else {
       dispatch(setPerfilNoCreado());
     }
+    setLoading(false);
     navigate('/perfil'); // Redirigir al perfil después de actualizar
 
   } catch (error) {

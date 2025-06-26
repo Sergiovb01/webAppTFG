@@ -31,7 +31,6 @@ useEffect(() => {
   }
 }, [publicacion, currentUser]);
 
-
 // Maneja el evento de seguir/dejar de seguir
 const handleFollowToggle = async () => {
   let success = false;
@@ -43,6 +42,10 @@ const handleFollowToggle = async () => {
 
   if (success) setIsFollowing(!isFollowing);
 };
+
+const handleAvatarClick = () => {
+    navigate(`/usuario/${publicacion.usuario.perfil._id}`);
+  };
 
   const handleEnviarPostulacion = () => {
     if(!mensaje){
@@ -70,7 +73,10 @@ console.log('Publicación data:', publicacion);
   return <div>Cargando publicación...</div>; // esperar a que cargue la publicación
 }
 
+
+
   return (
+   
     <Box display="flex" flexDirection={{ xs: "column", md: "row" }} p={4} gap={4}>
       {/* Columna izquierda */}
       <Box
@@ -129,7 +135,11 @@ console.log('Publicación data:', publicacion);
         sx={{ alignSelf: 'flex-start' }} // solo ocupa lo que necesita
       >
         <Box display="flex" alignItems="center" gap={1} mt={1} mb={2}>
-          <Avatar   src={publicacion.usuario.perfil.photo} />
+          <Avatar onClick={handleAvatarClick}  src={publicacion.usuario.perfil.photo} sx={{ width: 64, height: 64,  cursor: 'pointer',
+                        '&:hover': {
+                          transform: 'scale(1.1)',
+                          transition: 'all 0.2s ease-in-out',
+                        }, }} />
           <Typography>{publicacion.usuario.name}</Typography>
            {publicacion.usuario._id !== user.uid && (
             <Button
@@ -159,7 +169,7 @@ console.log('Publicación data:', publicacion);
         </Typography>
         <Stack direction="row" spacing={1} my={1} flexWrap="wrap">
           {publicacion.categoria?.map((cat, index) => (
-            <Chip key={index} className="chip-custom" label={cat} variant="outlined" />
+            <Chip key={index}  label={cat}  sx={{ bgcolor: '#9CCC65', color: 'white', fontSize: '0.75rem', height: 27, borderColor:'#9CCC65'}} />
           ))}
         </Stack>
 
@@ -170,10 +180,23 @@ console.log('Publicación data:', publicacion);
         <Grid container spacing={1} my={1}>
           {publicacion.tipoArtista?.map((tipo, index) => (
             <Grid item xs={6} sm={4} md={3} key={index}>
-              <Chip className="chip-custom" label={tipo} variant="outlined"  />
+              <Chip  label={tipo}  sx={{ bgcolor: '#29B6F6', color: 'white', fontSize: '0.75rem', height: 27, borderColor:'#29B6F6' }}  />
             </Grid>
           ))}
         </Grid>
+
+        <Divider sx={{ width: "100%", my: 1 }} />
+        <Typography variant="subtitle1" fontWeight="bold" alignSelf="flex-start">
+          Softwares Utilizados
+        </Typography>
+        <Stack direction="row" spacing={1} my={1} flexWrap="wrap">
+          {publicacion.software?.map((soft, index) => (
+             <Grid item xs={6} sm={4} md={3} key={index}>
+              <Chip label={soft}  sx={{ bgcolor: '#F06292', color: 'white', fontSize: '0.75rem', height: 27 }}  />
+            </Grid>
+          ))}
+          </Stack>
+
 
        {publicacion.usuario._id === user.uid ? (
           <Button
@@ -183,11 +206,32 @@ console.log('Publicación data:', publicacion);
           >
             Editar
           </Button>
-        ) : (
-          <Button  onClick={() => setOpenModal(true)} variant="contained" sx={{ mt: 3, width: "100%" }}>
-            Postular
-          </Button>
-        )}
+        ) :  publicacion.estado === 'cerrada' ?(
+          <Box
+          sx={{
+            mt: 3,
+            width: '100%',
+            backgroundColor: '#f5f5f5',
+            color: '#666',
+            p: 2,
+            borderRadius: 2,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            border: '2px dashed #bdbdbd'
+          }}
+        >
+          Esta publicación está cerrada y no acepta más postulaciones.
+        </Box>
+      ) : (
+        <Button
+          onClick={() => setOpenModal(true)}
+          variant="contained"
+          sx={{ mt: 3, width: "100%" }}
+        >
+          Postular
+        </Button>
+      )}
       </Box>
 
           <Dialog open={openModal} onClose={() => setOpenModal(false)} fullWidth maxWidth="sm">

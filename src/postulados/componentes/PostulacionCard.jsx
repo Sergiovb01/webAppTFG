@@ -37,29 +37,28 @@ export const PostulacionCard = ({ postulacion, onDelete }) => {
 
   return (
     <Card
-      onClick={handleCardClick}
+      
       variant="outlined"
       sx={{
         mb: 2,
-        transition: 'all 0.2s ease-in-out',
-        '&:hover': {
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          transform: 'translateY(-2px)'
-        }
       }}
     >
       <CardContent sx={{ p: 3 }}>
         {/* Header con avatar, nombre y fecha */}
         <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
           <Avatar 
+            onClick={handleCardClick}
             src={postulacion.usuario.perfil?.photo || ''} 
             sx={{ 
               width: 64, 
               height: 64, 
               mr: 2,
-              border: '3px solid',
-              borderColor: 'primary.light'
-            }}
+              cursor: 'pointer',
+              '&:hover': { 
+                boxShadow: 2,
+                transform: 'scale(1.05)',
+                transition: 'transform 0.2s ease-in-out'
+            }}}
           >
             <PersonIcon />
           </Avatar>
@@ -81,7 +80,7 @@ export const PostulacionCard = ({ postulacion, onDelete }) => {
 
           <IconButton
             aria-label="Cerrar postulación"
-            onClick={() => onDelete(postulacion._id)}
+            onClick={() =>{event.stopPropagation(); onDelete(postulacion._id)}}
             sx={{ 
               color: 'text.secondary',
               '&:hover': { color: 'error.main' }

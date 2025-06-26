@@ -53,31 +53,30 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 body {
-  background-color: #e2dfdf; /* Fondo muy claro */
+  background-color: #dceffa; 
   color: #000000;
-  font-family: 'VT323', monospace;
+  
 }
 
 /* Etiquetas (labels) */
 .MuiInputLabel-root {
-  color: #333333 !important;
+  color: #071eec !important;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 .MuiInputLabel-root.Mui-focused {
-  color: #000000 !important;
+  color: #071eec !important;
 }
 
 /* Texto del input */
 .MuiInputBase-input {
-  color: #000000 !important;
+  color: #071eec !important;
   background-color: transparent;
 }
 
 /* Outline inputs */
 .MuiOutlinedInput-notchedOutline {
-  border-color: #000000 !important;
+  border-color: #071eec !important;
 }
 
 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -85,7 +84,7 @@ body {
 }
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #000000 !important;
+  border-color: #071eec !important;
 }
 
 /* ======= BOTONES: fondo blanco, borde azul, texto azul ======= */
@@ -136,3 +135,12 @@ body {
   transition: background-color 0.2s ease;
 }
 
+.boton-cerrar {
+  color: #f34932 !important;
+  border-color: #f34932 !important;
+}
+
+.boton-cerrar:hover {
+  background-color: #f34932 !important;
+  color: white !important;
+}
