@@ -16,6 +16,7 @@ export const useAuthStore = () => {
        dispatch(onChecking())
         try{
             const {data} = await webbAppApi.post('/auth',{email, password}); // Hace la petición POST a la API para autenticar al usuario
+            console.log('Datos de login:', data)
             localStorage.setItem('token', data.token);// Guarda el token recibido en localStorage para mantener la sesión
             localStorage.setItem('token-init-date', new Date().getTime()); // Guarda la fecha en que se inició sesión (útil para renovar token después)
             console.log(data)

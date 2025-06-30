@@ -153,7 +153,6 @@ export const usePerfilStore = () => {
     try {
       setLoading(true);
       const { data } = await webbAppApi.get('/perfil/perfiles');
-      console.log('Perfiles cargados:', data.perfiles);
       // Almacena el perfil recibido en el estado local
       setPerfiles(data.perfiles);
     } catch (error) {

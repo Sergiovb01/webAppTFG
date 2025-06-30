@@ -50,7 +50,7 @@ export const UsersPage = () => {
       </Box>
     ) : (
       <Grid container rowSpacing={2} justifyContent="center" columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
-        {perfiles.map((user, i) => (
+        {perfiles.filter(user => user.portafolio && user.portafolio.length > 0).map((user, i) => (
           <Grid item xs={12} sm={6} md={4} key={i}>
             <TarjetaUsuario user={user} />
           </Grid>
