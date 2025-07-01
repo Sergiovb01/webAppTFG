@@ -49,7 +49,7 @@ export const Navbar = () => {
   
   const navLinks = [
     { label: 'Usuarios', path: '/users', icon: <PeopleAltIcon  /> },
-    { label: 'Publicaciones', path: '/projects', icon: <MovieFilterIcon /> },
+    { label: 'Proyectos', path: '/projects', icon: <MovieFilterIcon /> },
     { label: 'Eventos', path: '/calendar', icon: <EventIcon /> },
   ];
 

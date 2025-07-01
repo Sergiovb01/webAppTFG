@@ -127,12 +127,14 @@ export const usePerfilStore = () => {
     } else {
       dispatch(setPerfilNoCreado());
     }
-    setLoading(false);
     navigate('/perfil'); // Redirigir al perfil después de actualizar
 
   } catch (error) {
     console.error('Error al actualizar el perfil:', error);
     dispatch(setPerfilNoCreado());
+  }finally {
+ 
+    setLoading(false);
   }
 };
 

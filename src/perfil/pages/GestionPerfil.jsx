@@ -1,5 +1,6 @@
 import {
-  TextField, MenuItem, Button, Avatar, Box, Chip, Stack, IconButton, Typography
+  TextField, MenuItem, Button, Avatar, Box, Chip, Stack, IconButton, Typography,
+  Fab
 } from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
@@ -76,6 +77,7 @@ const {loading} =usePerfilStore();
         existingPortfolio: initialData.portafolio || []
       });
     }
+    console.log(loading);
   }, [initialData]);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -115,6 +117,7 @@ const {loading} =usePerfilStore();
       return;
     }
     onSubmit(formData);
+     console.log(loading);
   };
 
   return (
@@ -147,7 +150,7 @@ const {loading} =usePerfilStore();
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addToList('Software'))}>
                 {softwareOptions.map(opt => <MenuItem key={opt} value={opt}>{opt}</MenuItem>)}
               </TextField>
-              <IconButton onClick={() => addToList('Software')}><AddIcon sx={{ color: '#1976d2' }} /></IconButton>
+              <Fab size="small" onClick={() => addToList('Software')} sx={{ bgcolor: '#1976d2', color: 'white', '&:hover': { bgcolor: '#115293' } }}><AddIcon /></Fab>
             </Box>
             <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
               {formData.software.map(item => (
@@ -164,7 +167,7 @@ const {loading} =usePerfilStore();
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addToList('Skill'))}>
                 {skillOptions.map(opt => <MenuItem key={opt} value={opt}>{opt}</MenuItem>)}
               </TextField>
-              <IconButton onClick={() => addToList('Skill')}><AddIcon sx={{ color: '#1976d2' }} /></IconButton>
+              <Fab size="small" onClick={() => addToList('Skill')} sx={{ bgcolor: '#1976d2', color: 'white', '&:hover': { bgcolor: '#115293' } }}><AddIcon /></Fab>
             </Box>
             <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
               {formData.skill.map(item => (
@@ -195,7 +198,10 @@ const {loading} =usePerfilStore();
                 {socialOptions.map(opt => <MenuItem key={opt} value={opt}>{opt}</MenuItem>)}
               </TextField>
               <TextField label="Cuenta" name="socialAccount" fullWidth value={formData.socialAccount} onChange={handleChange} />
-              <IconButton onClick={() => {
+              
+              <IconButton 
+              sx={{ bgcolor: '#1976d2', color: 'white', '&:hover': { bgcolor: '#115293' } }}
+              onClick={() => {
                 const { currentSocial, socialAccount } = formData;
                 if (currentSocial && socialAccount) {
                   const formatted = `${currentSocial}: ${socialAccount}`;
@@ -204,7 +210,7 @@ const {loading} =usePerfilStore();
                   }
                 }
               }}>
-                <AddIcon sx={{ color: '#1976d2' }} />
+                <AddIcon  />
               </IconButton>
             </Box>
             <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
